@@ -1,0 +1,12 @@
+.article-list .mat-line {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.article-list .mat-list .mat-list-item {
+    height: initial;
+}
+
+.article-list .mat-list-item {
+  height: auto;
+}

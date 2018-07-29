@@ -3,6 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+
 import { AppComponent } from './app.component';
 
 import { AngularFireModule } from 'angularfire2';
@@ -17,6 +22,12 @@ import { environment } from '../environments/environment';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
+
+    MatListModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],
