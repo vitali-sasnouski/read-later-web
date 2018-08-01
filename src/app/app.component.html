@@ -1,18 +1,35 @@
 <mat-nav-list class="article-list">
-    <mat-list-item *ngFor="let item of items | async">
-        <a matLine [attr.href]="item.url">{{ item.title }}</a>
-        <button mat-icon-button (click)="showInfo(link)">
-           <mat-icon>info</mat-icon>
-        </button>
-  </mat-list-item>  
- </mat-nav-list>
+  <mat-list-item *ngFor="let item of items | async">
+    <a matLine [attr.href]="item.url">{{ item.title }}</a>
+    <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{item: item}">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>
+
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item (click)="processItem(item, operation.done)">
+      <mat-icon>done</mat-icon>
+      <span>Прочитано</span>
+    </button>
+    <button mat-menu-item (click)="processItem(item, operation.edit)">
+      <mat-icon>edit</mat-icon>
+      <span>Редактировать</span>
+    </button>
+    <button mat-menu-item (click)="processItem(item, operation.delete)">
+      <mat-icon>delete</mat-icon>
+      <span>Удалить</span>
+    </button>
+  </ng-template>
+</mat-menu>
 
 <div>
-  <input [(ngModel)]="newItem.title"/>
+  <input [(ngModel)]="newItem.title" />
 </div>
 
 <div>
-  <input [(ngModel)]="newItem.url"/>
+  <input [(ngModel)]="newItem.url" />
 </div>
 
 <div>
