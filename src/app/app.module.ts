@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
 
@@ -29,6 +30,7 @@ import { environment } from '../environments/environment';
     MatCheckboxModule,
     MatIconModule,
     MatMenuModule,
+    MatToolbarModule,
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule

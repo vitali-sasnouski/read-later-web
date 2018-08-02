@@ -7,12 +7,6 @@ export interface Item {
   url: string;
 }
 
-enum Operation {
-  done,
-  edit,
-  delete
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,8 +18,6 @@ export class AppComponent {
   public items: Observable<Item[]>;
   public newItem: Item = { title: '', url: '' };
 
-  public operation = Operation;
-  
   constructor(private readonly afs: AngularFirestore) {
     this.itemCollection = afs.collection<Item>('articles');
     this.items = this.itemCollection.valueChanges();
@@ -35,6 +27,39 @@ export class AppComponent {
     this.itemCollection.add(item);
   }
 
-  processItem(item: Item, operation: Operation) {
+  markItemAsDone(item: Item) {
+
+  }
+
+  editItem(item: Item) {
+
+  }
+
+  deleteItem(item: Item) {
+
+  }
+
+  importArticles() {
+
+  }
+
+  editList() {
+
+  }
+
+  selectAll() {
+
+  }
+
+  deleteSelected() {
+
+  }
+
+  markSelectedAsDone() {
+
+  }
+
+  cancelEdit() {
+    
   }
 }

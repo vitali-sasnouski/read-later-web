@@ -8,5 +8,9 @@
 }
 
 .article-list .mat-list-item {
-  height: auto;
+    height: auto;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
 }

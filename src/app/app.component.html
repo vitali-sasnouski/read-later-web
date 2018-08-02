@@ -1,3 +1,27 @@
+<mat-toolbar>
+  <span>Статьи</span>
+  <span class="toolbar-spacer"></span>
+
+  <button mat-icon-button (click)="cancelEdit()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button mat-icon-button (click)="importArticles()">
+    <mat-icon>import_export</mat-icon>
+  </button>
+  <button mat-icon-button (click)="editList()">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button mat-icon-button (click)="selectAll()">
+    <mat-icon>select_all</mat-icon>
+  </button>
+  <button mat-icon-button (click)="deleteSelected()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <button mat-icon-button (click)="markSelectedAsDone()">
+    <mat-icon>done</mat-icon>
+  </button>
+</mat-toolbar>
+
 <mat-nav-list class="article-list">
   <mat-list-item *ngFor="let item of items | async">
     <a matLine [attr.href]="item.url">{{ item.title }}</a>
@@ -7,17 +31,23 @@
   </mat-list-item>
 </mat-nav-list>
 
+<mat-selection-list>
+  <mat-list-option *ngFor="let item of items | async">
+    {{ item.title }}
+  </mat-list-option>
+</mat-selection-list>
+
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-item="item">
-    <button mat-menu-item (click)="processItem(item, operation.done)">
+    <button mat-menu-item (click)="markItemAsDone(item)">
       <mat-icon>done</mat-icon>
       <span>Прочитано</span>
     </button>
-    <button mat-menu-item (click)="processItem(item, operation.edit)">
+    <button mat-menu-item (click)="editItem(item)">
       <mat-icon>edit</mat-icon>
       <span>Редактировать</span>
     </button>
-    <button mat-menu-item (click)="processItem(item, operation.delete)">
+    <button mat-menu-item (click)="deleteItem(item)">
       <mat-icon>delete</mat-icon>
       <span>Удалить</span>
     </button>
