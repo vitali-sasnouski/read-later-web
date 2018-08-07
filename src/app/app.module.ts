@@ -3,35 +3,25 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
-import { AppComponent } from './app.component';
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
 
+import { UIModule } from './ui/ui.module';
+import { AppComponent } from './app.component';
+import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ItemEditDialogComponent
   ],
+  entryComponents: [ ItemEditDialogComponent ],
   imports: [
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-
-    MatListModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatMenuModule,
-    MatToolbarModule,
-
+    UIModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],

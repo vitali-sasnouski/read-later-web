@@ -8,6 +8,9 @@
   <button mat-icon-button (click)="importArticles()">
     <mat-icon>import_export</mat-icon>
   </button>
+  <button mat-icon-button (click)="openNewItemDialog()">
+    <mat-icon>add</mat-icon>
+  </button>
   <button mat-icon-button (click)="editList()">
     <mat-icon>edit</mat-icon>
   </button>
@@ -53,15 +56,3 @@
     </button>
   </ng-template>
 </mat-menu>
-
-<div>
-  <input [(ngModel)]="newItem.title" />
-</div>
-
-<div>
-  <input [(ngModel)]="newItem.url" />
-</div>
-
-<div>
-  <button (click)="addItem(newItem)">Add</button>
-</div>
