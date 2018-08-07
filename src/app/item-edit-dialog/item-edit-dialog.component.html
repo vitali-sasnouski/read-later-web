@@ -3,11 +3,19 @@
 <mat-dialog-content>
   <form class="article-form">
     <mat-form-field class="article-full-width">
-      <textarea matInput type="text" placeholder="Заголовок" [value]="data.title"></textarea>
+      <textarea matInput 
+        type="text" 
+        placeholder="Заголовок" 
+        [(ngModel)]="data.title"
+        name="title"></textarea>
     </mat-form-field>
   
     <mat-form-field class="article-full-width">
-      <input matInput type="url" placeholder="URL" [value]="data.url">
+      <input matInput 
+        type="url" 
+        placeholder="URL" 
+        [(ngModel)]="data.url"
+        name="url">
     </mat-form-field>
   </form>
 </mat-dialog-content>

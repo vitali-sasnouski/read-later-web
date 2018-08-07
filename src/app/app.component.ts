@@ -15,67 +15,74 @@ export class AppComponent {
   private itemCollection: AngularFirestoreCollection<Article>;
 
   public items: Observable<Article[]>;
+  public multiMode: boolean = false;
 
   constructor(private readonly afs: AngularFirestore, public dialog: MatDialog) {
     this.itemCollection = afs.collection<Article>('articles');
     this.items = this.itemCollection.valueChanges();
   }
 
-  addItem(item: Article) {
+  addItem(item: Article): void {
     this.itemCollection.add(item);
   }
 
-  markItemAsDone(item: Article) {
+  markItemAsDone(item: Article): void {
 
   }
 
-  editItem(item: Article) {
+  editItem(item: Article): void {
 
   }
 
-  deleteItem(item: Article) {
+  deleteItem(item: Article): void {
 
   }
 
-  importArticles() {
+  importArticles(): void {
 
   }
 
-  openNewItemDialog() {
+  openNewItemDialog(): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       width: '500px',
       data: { 
         title: '', 
-        url: '', 
-        read: false, 
-        deleted: false        
+        url: ''
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Object) {
+        const created = new Date();
 
+        this.addItem({
+          ...result,
+          read: false,
+          deleted: false,
+          created: created,
+          changed: created,
+        });
       }
     });
   }
 
-  editList() {
+  editList(): void {
+    this.multiMode = true;
+  }
+
+  selectAll(): void {
 
   }
 
-  selectAll() {
+  deleteSelected(): void {
 
   }
 
-  deleteSelected() {
+  markSelectedAsDone(): void {
 
   }
 
-  markSelectedAsDone() {
-
-  }
-
-  cancelEdit() {
-    
+  cancelEdit(): void {
+    this.multiMode = false;
   }
 }
