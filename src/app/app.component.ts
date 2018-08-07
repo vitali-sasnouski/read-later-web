@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 
-import { Article } from './model/article';
+import { ArticleBase, Article } from './model/article';
 import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
 
 @Component({
@@ -22,8 +22,20 @@ export class AppComponent {
     this.items = this.itemCollection.valueChanges();
   }
 
-  addItem(item: Article): void {
-    this.itemCollection.add(item);
+  addItem(item: ArticleBase): void {
+    const id = this.afs.createId(),
+          created = new Date();
+
+    const article: Article = {
+      id: id,
+      ...item,
+      read: false,
+      deleted: false,
+      created: created,
+      changed: created      
+    };
+
+    this.itemCollection.doc(id).set(article);
   }
 
   markItemAsDone(item: Article): void {
@@ -53,15 +65,7 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Object) {
-        const created = new Date();
-
-        this.addItem({
-          ...result,
-          read: false,
-          deleted: false,
-          created: created,
-          changed: created,
-        });
+        this.addItem(result);
       }
     });
   }

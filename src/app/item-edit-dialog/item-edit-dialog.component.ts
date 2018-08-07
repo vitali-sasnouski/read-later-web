@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { Article } from '../model/article';
+import { ArticleBase } from '../model/article';
 
 @Component({
   selector: 'app-item-edit-dialog',
@@ -12,7 +12,7 @@ export class ItemEditDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ItemEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Article
+    @Inject(MAT_DIALOG_DATA) public data: ArticleBase
   ) { }
 
   ngOnInit() {
