@@ -3,4 +3,6 @@ export interface Article {
     url: string;
     read: boolean;
     deleted: boolean;
+    created: Date;
+    changed: Date;
 }

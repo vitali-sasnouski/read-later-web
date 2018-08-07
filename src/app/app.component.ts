@@ -15,7 +15,6 @@ export class AppComponent {
   private itemCollection: AngularFirestoreCollection<Article>;
 
   public items: Observable<Article[]>;
-  public newItem: Article = { title: '', url: '', read: false, deleted: false };
 
   constructor(private readonly afs: AngularFirestore, public dialog: MatDialog) {
     this.itemCollection = afs.collection<Article>('articles');
@@ -45,9 +44,11 @@ export class AppComponent {
   openNewItemDialog() {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       width: '500px',
-      data: {
-        title: 'Как появлялись подпольные миллионеры в СССР. История королей «советского чёрного рынка»',
-        url: 'http://1863x.com/ussr-millionery/'
+      data: { 
+        title: '', 
+        url: '', 
+        read: false, 
+        deleted: false        
       }
     });
 
