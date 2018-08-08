@@ -27,7 +27,7 @@
 
 <mat-nav-list class="article-list" *ngIf="!multiMode">
   <mat-list-item *ngFor="let item of items | async">
-    <a matLine [attr.href]="item.url" [class.article-read]="item.read">{{ item.title }}</a>
+    <a matLine [attr.href]="item.url" target="_blank" [class.article-read]="item.read">{{ item.title }}</a>
     <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{item: item}">
       <mat-icon>more_vert</mat-icon>
     </button>
