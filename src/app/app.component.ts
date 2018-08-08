@@ -51,8 +51,12 @@ export class AppComponent {
 
   }
 
-  deleteItem(id: string): void {
-    this.itemCollection.doc(id).delete();
+  deleteItem(item: Article): void {
+    const updated = { ...item };
+    updated.changed = new Date();
+    updated.deleted = true;
+
+    this.itemCollection.doc(item.id).update(updated);
   }
 
   importArticles(): void {
