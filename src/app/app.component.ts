@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
+import { find, tap, filter } from "rxjs/operators";
 import { MatDialog } from '@angular/material';
 
 import { ArticleBase, Article } from './model/article';
@@ -18,7 +19,7 @@ export class AppComponent {
   public multiMode: boolean = false;
 
   constructor(private readonly afs: AngularFirestore, public dialog: MatDialog) {
-    this.itemCollection = afs.collection<Article>('articles');
+    this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));
     this.items = this.itemCollection.valueChanges();
   }
 
@@ -39,15 +40,19 @@ export class AppComponent {
   }
 
   markItemAsDone(item: Article): void {
+    const updated = { ...item };
+    updated.changed = new Date();
+    updated.read = true;
+
+    this.itemCollection.doc(item.id).update(updated);
+  }
+
+  editItem(id: string): void {
 
   }
 
-  editItem(item: Article): void {
-
-  }
-
-  deleteItem(item: Article): void {
-
+  deleteItem(id: string): void {
+    this.itemCollection.doc(id).delete();
   }
 
   importArticles(): void {
