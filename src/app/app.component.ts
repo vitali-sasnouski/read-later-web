@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 
 import { ArticleBase, Article } from './model/article';
 import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
+import { ImportExportDialogComponent } from './import-export-dialog/import-export-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -60,7 +61,25 @@ export class AppComponent {
   }
 
   importArticles(): void {
+    const dialogRef = this.dialog.open(ImportExportDialogComponent, {
+      width: '500px'
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Object && result.length) {
+        let i: number = 0;
+
+        const that = this;
+
+        (function loop() {
+          that.addItem(result[i]);
+
+          if (++i < result.length) {
+            setTimeout(loop, 1000);
+          }
+        })();        
+      }
+    });
   }
 
   openNewItemDialog(): void {

@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Импортировать статьи</h2>
+
+<mat-dialog-content>
+  <input 
+    type='file' 
+    accept='text/plain' 
+    (change)='openFile($event)'
+    placeholder="Путь к файлу">
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button mat-button [mat-dialog-close]="data">Сохранить</button>
+</mat-dialog-actions>

@@ -21,5 +21,4 @@ export class ItemEditDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

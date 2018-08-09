@@ -10,13 +10,15 @@ import { environment } from '../environments/environment';
 import { UIModule } from './ui/ui.module';
 import { AppComponent } from './app.component';
 import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
+import { ImportExportDialogComponent } from './import-export-dialog/import-export-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ItemEditDialogComponent
+    ItemEditDialogComponent,
+    ImportExportDialogComponent
   ],
-  entryComponents: [ ItemEditDialogComponent ],
+  entryComponents: [ ItemEditDialogComponent, ImportExportDialogComponent ],
   imports: [
     BrowserModule,
     FormsModule,
