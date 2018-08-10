@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { auth } from 'firebase';
 import { Observable } from 'rxjs';
-import { find, tap, filter } from "rxjs/operators";
 import { MatDialog } from '@angular/material';
 
 import { ArticleBase, Article } from './model/article';
@@ -11,7 +12,8 @@ import { ImportExportDialogComponent } from './import-export-dialog/import-expor
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [AngularFireAuth]
 })
 export class AppComponent {
   private itemCollection: AngularFirestoreCollection<Article>;
@@ -19,7 +21,20 @@ export class AppComponent {
   public items: Observable<Article[]>;
   public multiMode: boolean = false;
 
-  constructor(private readonly afs: AngularFirestore, public dialog: MatDialog) {
+  public credentials = {
+    email: "",
+    password: ""
+  }
+
+  authState: any = null;
+
+  constructor(private readonly afs: AngularFirestore,
+              public afAuth: AngularFireAuth,
+              public dialog: MatDialog) {
+    this.afAuth.authState.subscribe((auth) => {
+      this.authState = auth;
+    });
+
     this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));
     this.items = this.itemCollection.valueChanges();
   }
@@ -34,7 +49,7 @@ export class AppComponent {
       read: false,
       deleted: false,
       created: created,
-      changed: created      
+      changed: created
     };
 
     this.itemCollection.doc(id).set(article);
@@ -42,6 +57,7 @@ export class AppComponent {
 
   markItemAsDone(item: Article): void {
     const updated = { ...item };
+
     updated.changed = new Date();
     updated.read = true;
 
@@ -54,6 +70,7 @@ export class AppComponent {
 
   deleteItem(item: Article): void {
     const updated = { ...item };
+
     updated.changed = new Date();
     updated.deleted = true;
 
@@ -77,7 +94,7 @@ export class AppComponent {
           if (++i < result.length) {
             setTimeout(loop, 1000);
           }
-        })();        
+        })();
       }
     });
   }
@@ -85,8 +102,8 @@ export class AppComponent {
   openNewItemDialog(): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       width: '500px',
-      data: { 
-        title: '', 
+      data: {
+        title: '',
         url: ''
       }
     });
@@ -117,4 +134,12 @@ export class AppComponent {
   cancelEdit(): void {
     this.multiMode = false;
   }
+
+  login() {
+    this.afAuth.auth.signInWithEmailAndPassword(this.credentials.email, this.credentials.password)
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
+  }  
 }
