@@ -5,6 +5,8 @@ import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 
+import { saveAs } from 'file-saver/FileSaver';
+
 import { ArticleBase, Article } from './model/article';
 import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
 import { ImportExportDialogComponent } from './import-export-dialog/import-export-dialog.component';
@@ -20,6 +22,7 @@ export class AppComponent {
 
   public items: Observable<Article[]>;
   public multiMode: boolean = false;
+  public unreadItems: Article[];
 
   public credentials = {
     email: "",
@@ -37,6 +40,10 @@ export class AppComponent {
 
     this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));
     this.items = this.itemCollection.valueChanges();
+
+    this.items.subscribe(data => {
+      this.unreadItems = data;
+    });
   }
 
   addItem(item: ArticleBase): void {
@@ -97,6 +104,17 @@ export class AppComponent {
         })();
       }
     });
+  }
+
+  saveArticles(): void {
+    const output = [];
+
+    this.unreadItems.forEach(item => {
+      output.push(`[${item.title}](${item.url})\n\n`);
+    });
+
+    const blob = new Blob(output, {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "Readme.md");
   }
 
   openNewItemDialog(): void {

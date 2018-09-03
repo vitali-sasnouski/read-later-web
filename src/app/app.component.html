@@ -24,6 +24,9 @@
     <button mat-icon-button (click)="importArticles()" *ngIf="!multiMode">
       <mat-icon>import_export</mat-icon>
     </button>
+    <button mat-icon-button (click)="saveArticles()" *ngIf="!multiMode">
+      <mat-icon>save_alt</mat-icon>
+    </button>
     <button mat-icon-button (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
     </button>
