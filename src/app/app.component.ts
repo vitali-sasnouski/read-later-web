@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, element } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
@@ -42,7 +42,7 @@ export class AppComponent {
     this.items = this.itemCollection.valueChanges();
 
     this.items.subscribe(data => {
-      this.unreadItems = data;
+      this.unreadItems = data.filter(element => !element.read && !element.deleted);
     });
   }
 
