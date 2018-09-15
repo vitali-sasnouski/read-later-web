@@ -23,6 +23,7 @@ export class AppComponent {
   public items: Observable<Article[]>;
   public multiMode: boolean = false;
   public unreadItems: Article[];
+  public loaded: boolean = false;
 
   public credentials = {
     email: "",
@@ -36,6 +37,7 @@ export class AppComponent {
               public dialog: MatDialog) {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth;
+      this.loaded = true;
     });
 
     this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));

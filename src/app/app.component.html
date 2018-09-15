@@ -1,69 +1,75 @@
-<div *ngIf="afAuth.user | async; else showLogin">
-  <mat-toolbar class="app-toolbar">
-    <span>Статьи</span>
-    <span class="toolbar-spacer"></span>
-
-    <button mat-icon-button (click)="cancelEdit()" *ngIf="multiMode">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <button mat-icon-button (click)="openNewItemDialog()" *ngIf="!multiMode">
-      <mat-icon>add</mat-icon>
-    </button>
-    <button mat-icon-button (click)="editList()" *ngIf="!multiMode">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button mat-icon-button (click)="selectAll()" *ngIf="multiMode">
-      <mat-icon>select_all</mat-icon>
-    </button>
-    <button mat-icon-button (click)="deleteSelected()" *ngIf="multiMode">
-      <mat-icon>delete</mat-icon>
-    </button>
-    <button mat-icon-button (click)="markSelectedAsDone()" *ngIf="multiMode">
-      <mat-icon>done</mat-icon>
-    </button>
-    <button mat-icon-button (click)="importArticles()" *ngIf="!multiMode">
-      <mat-icon>import_export</mat-icon>
-    </button>
-    <button mat-icon-button (click)="saveArticles()" *ngIf="!multiMode">
-      <mat-icon>save_alt</mat-icon>
-    </button>
-    <button mat-icon-button (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-  </mat-toolbar>
-
-  <mat-nav-list class="article-list" *ngIf="!multiMode">
-    <mat-list-item *ngFor="let item of items | async">
-      <a matLine [attr.href]="item.url" target="_blank" [class.article-read]="item.read">{{ item.title }}</a>
-      <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{item: item}">
-        <mat-icon>more_vert</mat-icon>
+<div *ngIf="loaded; else showLoading">
+  <div *ngIf="afAuth.user | async; else showLogin">
+    <mat-toolbar class="app-toolbar">
+      <span>Статьи</span>
+      <span class="toolbar-spacer"></span>
+  
+      <button mat-icon-button (click)="cancelEdit()" *ngIf="multiMode">
+        <mat-icon>arrow_back</mat-icon>
       </button>
-    </mat-list-item>
-  </mat-nav-list>
-
-  <mat-selection-list *ngIf="multiMode">
-    <mat-list-option *ngFor="let item of items | async">
-      {{ item.title }}
-    </mat-list-option>
-  </mat-selection-list>
-
-  <mat-menu #menu="matMenu">
-    <ng-template matMenuContent let-item="item">
-      <button mat-menu-item (click)="markItemAsDone(item)">
-        <mat-icon>done</mat-icon>
-        <span>Прочитано</span>
+      <button mat-icon-button (click)="openNewItemDialog()" *ngIf="!multiMode">
+        <mat-icon>add</mat-icon>
       </button>
-      <button mat-menu-item (click)="editItem(item.id)">
+      <button mat-icon-button (click)="editList()" *ngIf="!multiMode">
         <mat-icon>edit</mat-icon>
-        <span>Редактировать</span>
       </button>
-      <button mat-menu-item (click)="deleteItem(item)">
+      <button mat-icon-button (click)="selectAll()" *ngIf="multiMode">
+        <mat-icon>select_all</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteSelected()" *ngIf="multiMode">
         <mat-icon>delete</mat-icon>
-        <span>Удалить</span>
       </button>
-    </ng-template>
-  </mat-menu>
+      <button mat-icon-button (click)="markSelectedAsDone()" *ngIf="multiMode">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button mat-icon-button (click)="importArticles()" *ngIf="!multiMode">
+        <mat-icon>import_export</mat-icon>
+      </button>
+      <button mat-icon-button (click)="saveArticles()" *ngIf="!multiMode">
+        <mat-icon>save_alt</mat-icon>
+      </button>
+      <button mat-icon-button (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </mat-toolbar>
+  
+    <mat-nav-list class="article-list" *ngIf="!multiMode">
+      <mat-list-item *ngFor="let item of items | async">
+        <a matLine [attr.href]="item.url" target="_blank" [class.article-read]="item.read">{{ item.title }}</a>
+        <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{item: item}">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  
+    <mat-selection-list *ngIf="multiMode">
+      <mat-list-option *ngFor="let item of items | async">
+        {{ item.title }}
+      </mat-list-option>
+    </mat-selection-list>
+  
+    <mat-menu #menu="matMenu">
+      <ng-template matMenuContent let-item="item">
+        <button mat-menu-item (click)="markItemAsDone(item)">
+          <mat-icon>done</mat-icon>
+          <span>Прочитано</span>
+        </button>
+        <button mat-menu-item (click)="editItem(item.id)">
+          <mat-icon>edit</mat-icon>
+          <span>Редактировать</span>
+        </button>
+        <button mat-menu-item (click)="deleteItem(item)">
+          <mat-icon>delete</mat-icon>
+          <span>Удалить</span>
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>  
 </div>
+
+<ng-template #showLoading>
+  <div>Loading...</div>
+</ng-template>
 
 <ng-template #showLogin>
   <form class="login-form">
