@@ -13,5 +13,7 @@ after_success:
  - firebase deploy --token $FIREBASE_TOKEN
 notifications:
   email:
+    recipients:
+      - vitali.sasnouski@gmail.com
     on_failure: always
     on_success: always
