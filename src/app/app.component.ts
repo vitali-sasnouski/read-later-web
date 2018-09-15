@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import { Observable } from 'rxjs';
+import { ISubscription } from 'rxjs/Subscription';
 import { MatDialog } from '@angular/material';
 
 import { saveAs } from 'file-saver/FileSaver';
@@ -19,6 +20,7 @@ import { ImportExportDialogComponent } from './import-export-dialog/import-expor
 })
 export class AppComponent {
   private itemCollection: AngularFirestoreCollection<Article>;
+  private subscription: ISubscription;
 
   public items: Observable<Article[]>;
   public multiMode: boolean = false;
@@ -38,13 +40,15 @@ export class AppComponent {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth;
       this.loaded = true;
-    });
 
-    this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));
-    this.items = this.itemCollection.valueChanges();
-
-    this.items.subscribe(data => {
-      this.unreadItems = data.filter(element => !element.read && !element.deleted);
+      if (this.authState) {
+        this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));
+        this.items = this.itemCollection.valueChanges();
+    
+        this.subscription = this.items.subscribe(data => {
+          this.unreadItems = data.filter(element => !element.read && !element.deleted);
+        });    
+      }
     });
   }
 
@@ -169,6 +173,8 @@ export class AppComponent {
   }
 
   logout() {
+    this.subscription.unsubscribe();
+
     this.afAuth.auth.signOut();
   }  
 }
