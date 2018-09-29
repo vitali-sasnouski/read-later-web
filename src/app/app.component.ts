@@ -20,7 +20,6 @@ import { ImportExportDialogComponent } from './import-export-dialog/import-expor
 })
 export class AppComponent {
   private itemCollection: AngularFirestoreCollection<Article>;
-  private subscription: ISubscription;
 
   public items: Observable<Article[]>;
   public multiMode: boolean = false;
@@ -42,12 +41,15 @@ export class AppComponent {
       this.loaded = true;
 
       if (this.authState) {
-        this.itemCollection = afs.collection<Article>('articles', ref => ref.orderBy('created'));
-        this.items = this.itemCollection.valueChanges();
-    
-        this.subscription = this.items.subscribe(data => {
-          this.unreadItems = data.filter(element => !element.read && !element.deleted);
-        });    
+        this.itemCollection = afs.collection<Article>('articles', ref => 
+          ref
+            //.where('read', '==', false)
+            //.where('deleted', '==', false)
+            //.where('created', '<', new Date())
+            .orderBy('created')
+        );
+
+        this.items = this.itemCollection.valueChanges();    
       }
     });
   }
@@ -122,14 +124,24 @@ export class AppComponent {
   }
 
   saveArticles(): void {
-    const output = [];
+    const subscription: ISubscription = this.afs.collection<Article>('articles', ref => 
+      ref
+        .where('read', '==', false)
+        .where('deleted', '==', false)
+        .orderBy('created')
+    ).valueChanges().subscribe(data => {
+      const output = [];
 
-    this.unreadItems.forEach(item => {
-      output.push(`[${item.title}](${item.url})\n\n`);
+      data.forEach(item => {
+        output.push(`[${item.title}](${item.url})\n\n`);
+      });
+  
+      const blob = new Blob(output, {type: "text/plain;charset=utf-8"});
+      saveAs(blob, "Readme.md");
+
+      subscription.unsubscribe();
     });
-
-    const blob = new Blob(output, {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "Readme.md");
+    
   }
 
   openNewItemDialog(): void {
@@ -173,8 +185,6 @@ export class AppComponent {
   }
 
   logout() {
-    this.subscription.unsubscribe();
-
     this.afAuth.auth.signOut();
   }  
 }
