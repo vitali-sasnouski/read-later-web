@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 import { ISubscription } from 'rxjs/Subscription';
