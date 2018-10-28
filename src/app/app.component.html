@@ -34,7 +34,7 @@
     </mat-toolbar>
   
     <mat-nav-list class="article-list" *ngIf="!multiMode">
-      <mat-list-item *ngFor="let item of items | async">
+      <mat-list-item *ngFor="let item of items$ | async as Article">
         <a matLine [attr.href]="item.url" target="_blank" 
           [class.article-read]="item.read"
           [class.article-deleted]="item.deleted">

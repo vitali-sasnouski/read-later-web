@@ -4,6 +4,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 import { ISubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/observable/of';
 import { MatDialog } from '@angular/material';
 
 import { saveAs } from 'file-saver/FileSaver';
@@ -20,8 +23,9 @@ import { ImportExportDialogComponent } from './import-export-dialog/import-expor
 })
 export class AppComponent {
   private itemCollection: AngularFirestoreCollection<Article>;
+  private currentDate: Date = new Date();
 
-  public items: Observable<Article[]>;
+  public items$: Observable<Article[]>;
   public multiMode: boolean = false;
   public unreadItems: Article[];
   public loaded: boolean = false;
@@ -41,17 +45,56 @@ export class AppComponent {
       this.loaded = true;
 
       if (this.authState) {
-        this.itemCollection = afs.collection<Article>('articles', ref => 
-          ref
-            //.where('read', '==', false)
-            //.where('deleted', '==', false)
-            //.where('created', '<', new Date())
-            .orderBy('created')
-        );
-
-        this.items = this.itemCollection.valueChanges();    
+        this.fetchData();
       }
     });
+  }
+
+  private fetchData(): void {
+    this.itemCollection = this.afs.collection<Article>('articles');
+
+    const unreadArticlesRef = this.afs.collection<Article>('articles', ref => 
+      ref
+        .where('read', '==', false)
+        .where('deleted', '==', false)
+        .orderBy('created')
+    );
+
+    const readArticlesRef = this.afs.collection<Article>('articles', ref => 
+      ref
+        .where('read', '==', true)
+        .where('deleted', '==', false)
+        .where('changed', '>=', this.currentDate)
+    );
+
+    const deletedArticlesRef = this.afs.collection<Article>('articles', ref => 
+      ref
+        .where('deleted', '==', true)
+        .where('changed', '>=', this.currentDate)
+    );
+
+    this.items$ = Observable
+      .combineLatest(unreadArticlesRef.valueChanges(),
+                     readArticlesRef.valueChanges(),
+                     deletedArticlesRef.valueChanges())
+      .switchMap(articles => {
+        const [unread, read, deleted] = articles;
+
+        const combined = unread.concat(read).concat(deleted);
+        combined.sort((a: Article, b: Article) => {
+          if (a.created < b.created) {
+            return -1;
+          }
+
+          if (a.created > b.created) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+        return Observable.of(combined);
+      });
   }
 
   addItem(item: ArticleBase): void {
