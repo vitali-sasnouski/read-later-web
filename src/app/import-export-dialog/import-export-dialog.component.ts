@@ -31,7 +31,7 @@ export class ImportExportDialogComponent implements OnInit {
       const reader = new FileReader();
 
       reader.onload = () => {
-        const lines: string[] = reader.result.split('\n'),
+        const lines: string[] = (reader.result as string).split('\n'),
               testLine: RegExp = new RegExp('\\[(.+)\\]\\((.+)\\)', 'i');
 
         lines.forEach(element => {
