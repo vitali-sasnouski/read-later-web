@@ -1,12 +1,14 @@
+
+import {of as observableOf, combineLatest as observableCombineLatest,  Observable ,  SubscriptionLike as ISubscription } from 'rxjs';
+
+import {switchMap} from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase';
-import { Observable } from 'rxjs';
-import { ISubscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/of';
+
+
+
 import { MatDialog } from '@angular/material';
 
 import { saveAs } from 'file-saver/FileSaver';
@@ -73,11 +75,10 @@ export class AppComponent {
         .where('changed', '>=', this.currentDate)
     );
 
-    this.items$ = Observable
-      .combineLatest(unreadArticlesRef.valueChanges(),
+    this.items$ = observableCombineLatest(unreadArticlesRef.valueChanges(),
                      readArticlesRef.valueChanges(),
-                     deletedArticlesRef.valueChanges())
-      .switchMap(articles => {
+                     deletedArticlesRef.valueChanges()).pipe(
+      switchMap(articles => {
         const [unread, read, deleted] = articles;
 
         const combined = unread.concat(read).concat(deleted);
@@ -93,8 +94,8 @@ export class AppComponent {
           return 0;
         });
 
-        return Observable.of(combined);
-      });
+        return observableOf(combined);
+      }));
   }
 
   addItem(item: ArticleBase): void {
