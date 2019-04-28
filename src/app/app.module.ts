@@ -11,6 +11,7 @@ import { UIModule } from './ui/ui.module';
 import { AppComponent } from './app.component';
 import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
 import { ImportExportDialogComponent } from './import-export-dialog/import-export-dialog.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ImportExportDialogComponent } from './import-export-dialog/import-expor
     BrowserAnimationsModule,
     UIModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
