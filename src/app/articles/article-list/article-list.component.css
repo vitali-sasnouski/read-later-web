@@ -1,0 +1,42 @@
+.app-toolbar {
+    position: sticky;
+    position: -webkit-sticky; /* For macOS/iOS Safari */
+    top: 0; /* Sets the sticky toolbar to be on top */
+    z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.article-list .mat-line {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.article-list .mat-list .mat-list-item {
+    height: initial;
+}
+
+.article-list .mat-list-item {
+    height: auto;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.article-read {
+    text-decoration: line-through;
+}
+
+.article-deleted {
+    opacity: 0.6; /* Real browsers */
+    filter: alpha(opacity = 60); /* MSIE */    
+}
+
+.login-form {
+    min-width: 150px;
+    max-width: 250px;
+    width: 100%;
+}
+  
+.login-full-width {
+    width: 100%;
+}

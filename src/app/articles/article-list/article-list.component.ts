@@ -1,8 +1,7 @@
-
 import {of as observableOf, combineLatest as observableCombineLatest,  Observable ,  SubscriptionLike as ISubscription } from 'rxjs';
 
 import { switchMap } from 'rxjs/operators';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase';
@@ -14,17 +13,18 @@ import { RouterOutlet } from '@angular/router';
 
 import { saveAs } from 'file-saver/FileSaver';
 
-import { ArticleBase, Article } from './model/article';
-import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
-import { ImportExportDialogComponent } from './import-export-dialog/import-export-dialog.component';
+import { ArticleBase, Article } from '../../model/article';
+import { ItemEditDialogComponent } from '../../item-edit-dialog/item-edit-dialog.component';
+import { ImportExportDialogComponent } from '../../import-export-dialog/import-export-dialog.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-article-list',
+  templateUrl: './article-list.component.html',
+  styleUrls: ['./article-list.component.css'],
   providers: [AngularFireAuth]
 })
-export class AppComponent {
+export class ArticleListComponent implements OnInit {
+
   private itemCollection: AngularFirestoreCollection<Article>;
   private currentDate: Date = new Date();
 
@@ -51,6 +51,9 @@ export class AppComponent {
         this.fetchData();
       }
     });
+  }
+
+  ngOnInit() {
   }
 
   private fetchData(): void {
