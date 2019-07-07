@@ -3,15 +3,11 @@ import {of as observableOf, combineLatest as observableCombineLatest,  Observabl
 import { switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase';
-
-
-
 import { MatDialog } from '@angular/material';
-import { RouterOutlet } from '@angular/router';
 
 import { saveAs } from 'file-saver/FileSaver';
+
+import { AuthService } from '../../auth/auth.service';
 
 import { ArticleBase, Article } from '../../model/article';
 import { ItemEditDialogComponent } from '../../item-edit-dialog/item-edit-dialog.component';
@@ -20,8 +16,7 @@ import { ImportExportDialogComponent } from '../../import-export-dialog/import-e
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
-  styleUrls: ['./article-list.component.css'],
-  providers: [AngularFireAuth]
+  styleUrls: ['./article-list.component.css']
 })
 export class ArticleListComponent implements OnInit {
 
@@ -31,26 +26,12 @@ export class ArticleListComponent implements OnInit {
   public items$: Observable<Article[]>;
   public multiMode: boolean = false;
   public unreadItems: Article[];
-  public loaded: boolean = false;
-
-  public credentials = {
-    email: "",
-    password: ""
-  }
-
-  authState: any = null;
+  public loaded: boolean = false;  
 
   constructor(private readonly afs: AngularFirestore,
-              public afAuth: AngularFireAuth,
+              private auth: AuthService,
               public dialog: MatDialog) {
-    this.afAuth.authState.subscribe((auth) => {
-      this.authState = auth;
-      this.loaded = true;
-
-      if (this.authState) {
-        this.fetchData();
-      }
-    });
+    this.fetchData();
   }
 
   ngOnInit() {
@@ -228,11 +209,7 @@ export class ArticleListComponent implements OnInit {
     this.multiMode = false;
   }
 
-  login() {
-    this.afAuth.auth.signInWithEmailAndPassword(this.credentials.email, this.credentials.password)
-  }
-
   logout() {
-    this.afAuth.auth.signOut();
+    this.auth.logout();
   }  
 }

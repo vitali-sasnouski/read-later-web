@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { Router, NavigationExtras } from '@angular/router';
+
+import { AngularFireAuth } from '@angular/fire/auth';
+
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  isLoggedIn = false;
+  redirectUrl: string;
+  user: Observable<firebase.User>;
+
+  constructor(public firebaseAuth: AngularFireAuth, private router: Router) {
+    this.user = this.firebaseAuth.authState;
+  }
+
+  login(email: string, password: string): void {
+    this.firebaseAuth
+      .auth
+      .signInWithEmailAndPassword(email, password)
+      .then(value => {
+        console.info('Success!', value);
+        this.isLoggedIn = true;
+
+        let redirect = this.redirectUrl ? this.router.parseUrl(this.redirectUrl) : '/articles';
+
+        // Set our navigation extras object
+        // that passes on our global query params and fragment
+        let navigationExtras: NavigationExtras = {
+          queryParamsHandling: 'preserve',
+          preserveFragment: true
+        };
+
+        // Redirect the user
+        this.router.navigateByUrl(redirect, navigationExtras);        
+      })
+      .catch(err => {
+        console.log('Something went wrong:',err.message);
+      });
+  }
+
+  logout(): void {
+    this.firebaseAuth.auth.signOut();
+    this.isLoggedIn = false;    
+  }
+}
