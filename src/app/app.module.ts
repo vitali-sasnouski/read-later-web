@@ -9,19 +9,21 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 import { UIModule } from './ui/ui.module';
-import { AppRoutingModule } from './app-routing/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ItemEditDialogComponent } from './item-edit-dialog/item-edit-dialog.component';
 import { ImportExportDialogComponent } from './import-export-dialog/import-export-dialog.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LoginComponent } from './login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemEditDialogComponent,
     ImportExportDialogComponent,
-    LoginComponent
+    LoginComponent,
+    PageNotFoundComponent
   ],
   entryComponents: [ ItemEditDialogComponent, ImportExportDialogComponent ],
   imports: [

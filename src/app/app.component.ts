@@ -10,6 +10,7 @@ import { auth } from 'firebase';
 
 
 import { MatDialog } from '@angular/material';
+import { RouterOutlet } from '@angular/router';
 
 import { saveAs } from 'file-saver/FileSaver';
 
