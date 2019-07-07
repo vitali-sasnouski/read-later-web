@@ -31,6 +31,7 @@ export class ArticleListComponent implements OnInit {
   constructor(private readonly afs: AngularFirestore,
               private auth: AuthService,
               public dialog: MatDialog) {
+    this.loaded = true;
     this.fetchData();
   }
 

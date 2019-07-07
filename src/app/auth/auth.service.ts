@@ -43,7 +43,16 @@ export class AuthService {
   }
 
   logout(): void {
-    this.firebaseAuth.auth.signOut();
-    this.isLoggedIn = false;    
+    this.firebaseAuth
+      .auth
+      .signOut()
+      .then(() => { 
+        console.info('Logout');
+        this.isLoggedIn = false;
+        this.router.navigate(['/login']);
+      })
+      .catch(err => {
+        console.log('Something went wrong:',err.message);
+      });
   }
 }
