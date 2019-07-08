@@ -50,7 +50,7 @@
   </mat-nav-list>
 
   <mat-selection-list *ngIf="multiMode">
-    <mat-list-option *ngFor="let item of items | async">
+    <mat-list-option *ngFor="let item of items$ | async as Article">
       {{ item.title }}
     </mat-list-option>
   </mat-selection-list>
