@@ -16,21 +16,6 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private auth: AuthService, private router: Router) { 
-    auth.isLoaded$.subscribe(loaded => {
-      if (this.auth.isLoggedIn) {
-        let redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '/articles';
-
-        // Set our navigation extras object
-        // that passes on our global query params and fragment
-        let navigationExtras: NavigationExtras = {
-          queryParamsHandling: 'preserve',
-          preserveFragment: true
-        };
-
-        // Redirect the user
-        this.router.navigateByUrl(redirect, navigationExtras);        
-      }
-    })
   }
 
   ngOnInit() {

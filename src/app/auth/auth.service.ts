@@ -4,6 +4,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Observable, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +13,27 @@ import { Observable, Subject } from 'rxjs';
 export class AuthService {
   isLoggedIn = false;
   redirectUrl: string;
+  private isLoaded: boolean;
   user$: Observable<firebase.User>;
-  isLoaded$: Subject<boolean>;
 
   constructor(public firebaseAuth: AngularFireAuth, private router: Router) {
     this.user$ = this.firebaseAuth.authState;
-    this.isLoaded$ = new Subject<boolean>();
+  }
 
-    this.user$.subscribe(value => {
-      this.isLoggedIn = !!value;
+  isSignedIn(): Observable<boolean> {
+    if (this.isLoaded) {
+      return of(this.isLoggedIn);
+    }
 
-      if (!this.isLoaded$.isStopped) {
-        this.isLoaded$.next(true);
-        this.isLoaded$.complete();  
-      }
-    });
+    return this.user$.pipe(
+      map(v => {
+        return !!v;
+      }),
+      tap(v => {
+        this.isLoaded = true;
+        this.isLoggedIn = v;
+      })
+    );
   }
 
   login(email: string, password: string): void {
