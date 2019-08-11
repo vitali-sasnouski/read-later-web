@@ -24,9 +24,9 @@ export class ArticleListComponent implements OnInit {
   private currentDate: Date = new Date();
 
   public items$: Observable<Article[]>;
-  public multiMode: boolean = false;
+  public multiMode = false;
   public unreadItems: Article[];
-  public loaded: boolean = false;  
+  public loaded = false;
 
   constructor(private readonly afs: AngularFirestore,
               private auth: AuthService,
@@ -41,21 +41,21 @@ export class ArticleListComponent implements OnInit {
   private fetchData(): void {
     this.itemCollection = this.afs.collection<Article>('articles');
 
-    const unreadArticlesRef = this.afs.collection<Article>('articles', ref => 
+    const unreadArticlesRef = this.afs.collection<Article>('articles', ref =>
       ref
         .where('read', '==', false)
         .where('deleted', '==', false)
         .orderBy('created')
     );
 
-    const readArticlesRef = this.afs.collection<Article>('articles', ref => 
+    const readArticlesRef = this.afs.collection<Article>('articles', ref =>
       ref
         .where('read', '==', true)
         .where('deleted', '==', false)
         .where('changed', '>=', this.currentDate)
     );
 
-    const deletedArticlesRef = this.afs.collection<Article>('articles', ref => 
+    const deletedArticlesRef = this.afs.collection<Article>('articles', ref =>
       ref
         .where('deleted', '==', true)
         .where('changed', '>=', this.currentDate)
@@ -138,7 +138,7 @@ export class ArticleListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Object && result.length) {
-        let i: number = 0;
+        let i = 0;
 
         const that = this;
 
@@ -154,7 +154,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   saveArticles(): void {
-    const subscription: ISubscription = this.afs.collection<Article>('articles', ref => 
+    const subscription: ISubscription = this.afs.collection<Article>('articles', ref =>
       ref
         .where('read', '==', false)
         .where('deleted', '==', false)
@@ -165,13 +165,13 @@ export class ArticleListComponent implements OnInit {
       data.forEach(item => {
         output.push(`[${item.title}](${item.url})\n\n`);
       });
-  
-      const blob = new Blob(output, {type: "text/plain;charset=utf-8"});
-      saveAs(blob, "Readme.md");
+
+      const blob = new Blob(output, {type: 'text/plain;charset=utf-8'});
+      saveAs(blob, 'Readme.md');
 
       subscription.unsubscribe();
     });
-    
+
   }
 
   openNewItemDialog(): void {
@@ -212,5 +212,5 @@ export class ArticleListComponent implements OnInit {
 
   logout() {
     this.auth.logout();
-  }  
+  }
 }

@@ -14,8 +14,8 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      
-      let url: string = state.url;
+
+      const url: string = state.url;
 
       return this.checkLogin(url);
   }
@@ -29,9 +29,9 @@ export class AuthGuard implements CanActivate {
 
         this.authSevice.redirectUrl = url;
         this.router.navigate(['/login']);
-    
+
         return false;
       })
     );
-}  
+}
 }

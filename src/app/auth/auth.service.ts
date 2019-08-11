@@ -41,23 +41,22 @@ export class AuthService {
       .auth
       .signInWithEmailAndPassword(email, password)
       .then(value => {
-        console.info('Success!', value);
         this.isLoggedIn = true;
 
-        let redirect = this.redirectUrl ? this.router.parseUrl(this.redirectUrl) : '/articles';
+        const redirect = this.redirectUrl ? this.router.parseUrl(this.redirectUrl) : '/articles';
 
         // Set our navigation extras object
         // that passes on our global query params and fragment
-        let navigationExtras: NavigationExtras = {
+        const navigationExtras: NavigationExtras = {
           queryParamsHandling: 'preserve',
           preserveFragment: true
         };
 
         // Redirect the user
-        this.router.navigateByUrl(redirect, navigationExtras);        
+        this.router.navigateByUrl(redirect, navigationExtras);
       })
       .catch(err => {
-        console.log('Something went wrong:',err.message);
+        console.log('Something went wrong:', err.message);
       });
   }
 
@@ -65,13 +64,12 @@ export class AuthService {
     this.firebaseAuth
       .auth
       .signOut()
-      .then(() => { 
-        console.info('Logout');
+      .then(() => {
         this.isLoggedIn = false;
         this.router.navigate(['/login']);
       })
       .catch(err => {
-        console.log('Something went wrong:',err.message);
+        console.log('Something went wrong:', err.message);
       });
   }
 }

@@ -48,7 +48,7 @@ export class ImportExportDialogComponent implements OnInit {
             }
           }
         });
-      }
+      };
 
       reader.readAsText(input.files[0]);
     }
