@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { from } from 'rxjs/observable/from';
 
 @Injectable({
   providedIn: 'root'
@@ -36,28 +37,11 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string): void {
-    this.firebaseAuth
-      .auth
-      .signInWithEmailAndPassword(email, password)
-      .then(value => {
-        this.isLoggedIn = true;
-
-        const redirect = this.redirectUrl ? this.router.parseUrl(this.redirectUrl) : '/articles';
-
-        // Set our navigation extras object
-        // that passes on our global query params and fragment
-        const navigationExtras: NavigationExtras = {
-          queryParamsHandling: 'preserve',
-          preserveFragment: true
-        };
-
-        // Redirect the user
-        this.router.navigateByUrl(redirect, navigationExtras);
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
+  login(email: string, password: string): Observable<firebase.auth.UserCredential> {
+    return from(this.firebaseAuth.auth.signInWithEmailAndPassword(email, password))
+      .pipe(
+        tap(_ => this.isLoggedIn = true )
+      );
   }
 
   logout(): void {

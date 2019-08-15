@@ -22,6 +22,23 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.auth.login(this.credentials.email, this.credentials.password);
+    this.auth.login(this.credentials.email, this.credentials.password).subscribe(
+      user => {
+        const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '';
+
+        // Set our navigation extras object
+        // that passes on our global query params and fragment
+        const navigationExtras: NavigationExtras = {
+          queryParamsHandling: 'preserve',
+          preserveFragment: true
+        };
+
+        // Redirect the user
+        this.router.navigateByUrl(redirect, navigationExtras);
+      },
+      error => {
+        console.error('Login error:', error.message);
+      }
+    );
   }
 }
