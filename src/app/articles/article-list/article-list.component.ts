@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { saveAs } from 'file-saver/FileSaver';
 
 import { AuthService } from '../../auth/auth.service';
+import { ArticlesService } from '../articles.service';
 
 import { ArticleBase, Article } from '../../model/article';
 import { ItemEditDialogComponent } from '../../item-edit-dialog/item-edit-dialog.component';
@@ -20,93 +21,28 @@ import { ImportExportDialogComponent } from '../../import-export-dialog/import-e
 })
 export class ArticleListComponent implements OnInit {
 
-  private itemCollection: AngularFirestoreCollection<Article>;
-  private currentDate: Date = new Date();
-
   public items$: Observable<Article[]>;
   public multiMode = false;
   public unreadItems: Article[];
   public loaded = false;
 
   constructor(private readonly afs: AngularFirestore,
+              private articles: ArticlesService,
               private auth: AuthService,
               public dialog: MatDialog) {
     this.loaded = true;
-    this.fetchData();
+    this.items$ = articles.fetchData();
   }
 
   ngOnInit() {
   }
 
-  private fetchData(): void {
-    this.itemCollection = this.afs.collection<Article>('articles');
-
-    const unreadArticlesRef = this.afs.collection<Article>('articles', ref =>
-      ref
-        .where('read', '==', false)
-        .where('deleted', '==', false)
-        .orderBy('created')
-    );
-
-    const readArticlesRef = this.afs.collection<Article>('articles', ref =>
-      ref
-        .where('read', '==', true)
-        .where('deleted', '==', false)
-        .where('changed', '>=', this.currentDate)
-    );
-
-    const deletedArticlesRef = this.afs.collection<Article>('articles', ref =>
-      ref
-        .where('deleted', '==', true)
-        .where('changed', '>=', this.currentDate)
-    );
-
-    this.items$ = observableCombineLatest(unreadArticlesRef.valueChanges(),
-                     readArticlesRef.valueChanges(),
-                     deletedArticlesRef.valueChanges()).pipe(
-      switchMap(articles => {
-        const [unread, read, deleted] = articles;
-
-        const combined = unread.concat(read).concat(deleted);
-        combined.sort((a: Article, b: Article) => {
-          if (a.created < b.created) {
-            return -1;
-          }
-
-          if (a.created > b.created) {
-            return 1;
-          }
-
-          return 0;
-        });
-
-        return observableOf(combined);
-      }));
-  }
-
   addItem(item: ArticleBase): void {
-    const id = this.afs.createId(),
-          created = new Date();
-
-    const article: Article = {
-      id: id,
-      ...item,
-      read: false,
-      deleted: false,
-      created: created,
-      changed: created
-    };
-
-    this.itemCollection.doc(id).set(article);
+    this.articles.addItem(item);
   }
 
   markItemAsDone(item: Article): void {
-    const updated = { ...item };
-
-    updated.changed = new Date();
-    updated.read = true;
-
-    this.itemCollection.doc(item.id).update(updated);
+    this.articles.markItemAsDone(item);
   }
 
   editItem(id: string): void {
@@ -114,21 +50,11 @@ export class ArticleListComponent implements OnInit {
   }
 
   deleteItem(item: Article): void {
-    const updated = { ...item };
-
-    updated.changed = new Date();
-    updated.deleted = true;
-
-    this.itemCollection.doc(item.id).update(updated);
+    this.articles.deleteItem(item);
   }
 
   undoDelete(item: Article): void {
-    const updated = { ...item };
-
-    updated.changed = new Date();
-    updated.deleted = false;
-
-    this.itemCollection.doc(item.id).update(updated);
+    this.articles.undoDelete(item);
   }
 
   importArticles(): void {
@@ -154,12 +80,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   saveArticles(): void {
-    const subscription: ISubscription = this.afs.collection<Article>('articles', ref =>
-      ref
-        .where('read', '==', false)
-        .where('deleted', '==', false)
-        .orderBy('created')
-    ).valueChanges().subscribe(data => {
+    const subscription: ISubscription = this.articles.getActiveItems().subscribe(data => {
       const output = [];
 
       data.forEach(item => {
@@ -171,7 +92,6 @@ export class ArticleListComponent implements OnInit {
 
       subscription.unsubscribe();
     });
-
   }
 
   openNewItemDialog(): void {
@@ -185,7 +105,7 @@ export class ArticleListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Object) {
-        this.addItem(result);
+        this.articles.addItem(result);
       }
     });
   }
