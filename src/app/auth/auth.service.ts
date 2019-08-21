@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 
@@ -7,6 +7,9 @@ import { Observable, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
+import { finalize } from 'rxjs/operators/finalize';
+
+import { LoadingService } from '../loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,9 @@ export class AuthService {
   private isLoaded: boolean;
   user$: Observable<firebase.User>;
 
-  constructor(public firebaseAuth: AngularFireAuth, private router: Router) {
+  constructor(public firebaseAuth: AngularFireAuth,
+              private router: Router,
+              private loadingService: LoadingService) {
     this.user$ = this.firebaseAuth.authState;
   }
 
@@ -38,9 +43,12 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<firebase.auth.UserCredential> {
+    this.loadingService.start();
+
     return from(this.firebaseAuth.auth.signInWithEmailAndPassword(email, password))
       .pipe(
-        tap(_ => this.isLoggedIn = true )
+        tap(_ => this.isLoggedIn = true),
+        finalize(() => this.loadingService.stop())
       );
   }
 

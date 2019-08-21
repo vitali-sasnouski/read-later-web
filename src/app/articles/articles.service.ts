@@ -10,6 +10,7 @@ import { switchMap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 import { ArticleBase, Article } from '../model/article';
+import { LoadingService } from '../loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class ArticlesService {
   private itemCollection: AngularFirestoreCollection<Article>;
   private currentDate: Date = new Date();
 
-  constructor(private readonly afs: AngularFirestore) { }
+  constructor(private readonly afs: AngularFirestore,
+              private loadingService: LoadingService) { this.loadingService.start(); }
 
   fetchData(): Observable<Article[]> {
     this.itemCollection = this.afs.collection<Article>('articles');
@@ -63,6 +65,7 @@ export class ArticlesService {
           return 0;
         });
 
+        this.loadingService.stop();
         return observableOf(combined);
       }));
 

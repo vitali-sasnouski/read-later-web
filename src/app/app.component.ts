@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 
+import { LoadingService } from './loading.service';
+
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>'
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
-  constructor() { }
+  constructor(private loadingService: LoadingService) { }
 }

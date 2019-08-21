@@ -1,8 +1,6 @@
-import {of as observableOf, combineLatest as observableCombineLatest,  Observable ,  SubscriptionLike as ISubscription } from 'rxjs';
+import { Observable, SubscriptionLike as ISubscription } from 'rxjs';
 
-import { switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material';
 
 import { saveAs } from 'file-saver/FileSaver';
@@ -26,15 +24,14 @@ export class ArticleListComponent implements OnInit {
   public unreadItems: Article[];
   public loaded = false;
 
-  constructor(private readonly afs: AngularFirestore,
-              private articles: ArticlesService,
+  constructor(private articles: ArticlesService,
               private auth: AuthService,
               public dialog: MatDialog) {
     this.loaded = true;
-    this.items$ = articles.fetchData();
   }
 
   ngOnInit() {
+    this.items$ = this.articles.fetchData();
   }
 
   addItem(item: ArticleBase): void {
