@@ -1,9 +1,9 @@
 import { Observable, SubscriptionLike as ISubscription } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 
 import { AuthService } from '../../auth/auth.service';
 import { ArticlesService } from '../articles.service';
