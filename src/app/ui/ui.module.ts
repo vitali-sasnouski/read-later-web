@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     MatInputModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTooltipModule
   ],
   exports: [
     MatListModule,
@@ -36,7 +38,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     MatInputModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTooltipModule
   ],
   declarations: []
 })
