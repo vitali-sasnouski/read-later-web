@@ -8,6 +8,6 @@ import { UpdateService } from './update.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  constructor(private loadingService: LoadingService,
-    private updateService: UpdateService) { }
+  constructor(public loadingService: LoadingService,
+              private updateService: UpdateService) { }
 }
