@@ -25,7 +25,7 @@ export class ArticleListComponent implements OnInit {
   public multiMode = false;
   public unreadItems: Article[];
   public loaded = false;
-  public version: string = environment.version;
+  public currentApplicationVersion: string = environment.appVersion;
 
   constructor(private articles: ArticlesService,
               private auth: AuthService,

@@ -6,7 +6,7 @@ import { version } from '../../package.json';
 
 export const environment = {
   production: false,
-  version: version,
+  appVersion: version + '-dev',
   firebase: {
     apiKey: 'AIzaSyBN2Sqrg4BJq4htAzMzgBq4OU2m-t3AE8k',
     authDomain: 'read-later-dev.firebaseapp.com',

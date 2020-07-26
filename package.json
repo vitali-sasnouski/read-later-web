@@ -1,13 +1,14 @@
 {
   "name": "read-later",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "scripts": {
     "ng": "npx ng",
     "start": "npx ng serve",
     "build": "npx ng build",
     "test": "npx ng test",
     "lint": "npx ng lint",
-    "e2e": "npx ng e2e"
+    "e2e": "npx ng e2e",
+    "up_version": "npm --no-git-tag-version version patch"
   },
   "private": true,
   "dependencies": {
