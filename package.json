@@ -1,6 +1,6 @@
 {
   "name": "read-later",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "scripts": {
     "ng": "npx ng",
     "start": "npx ng serve",

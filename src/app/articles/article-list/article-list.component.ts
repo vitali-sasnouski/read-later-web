@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { saveAs } from 'file-saver';
 
+import { environment } from '../../../environments/environment';
+
 import { AuthService } from '../../auth/auth.service';
 import { ArticlesService } from '../articles.service';
 
@@ -23,6 +25,7 @@ export class ArticleListComponent implements OnInit {
   public multiMode = false;
   public unreadItems: Article[];
   public loaded = false;
+  public version: string = environment.version;
 
   constructor(private articles: ArticlesService,
               private auth: AuthService,
