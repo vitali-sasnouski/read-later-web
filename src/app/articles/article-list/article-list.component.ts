@@ -1,4 +1,4 @@
-import { Observable, SubscriptionLike as ISubscription } from 'rxjs';
+import { Observable, SubscriptionLike as ISubscription, from } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ import { ArticlesService } from '../articles.service';
 import { ArticleBase, Article } from '../../model/article';
 import { ItemEditDialogComponent } from '../../item-edit-dialog/item-edit-dialog.component';
 import { ImportExportDialogComponent } from '../../import-export-dialog/import-export-dialog.component';
+import { ArticleListToolbarComponent } from '../article-list-toolbar/article-list-toolbar.component';
 
 @Component({
   selector: 'app-article-list',
@@ -57,7 +58,7 @@ export class ArticleListComponent implements OnInit {
     this.articles.undoDelete(item);
   }
 
-  importArticles(): void {
+  onArticlesImport(): void {
     const dialogRef = this.dialog.open(ImportExportDialogComponent, {
       width: '500px'
     });
@@ -79,7 +80,7 @@ export class ArticleListComponent implements OnInit {
     });
   }
 
-  saveArticles(): void {
+  onArticlesExport(): void {
     const subscription: ISubscription = this.articles.getActiveItems().subscribe(data => {
       const output = [];
 
@@ -92,6 +93,14 @@ export class ArticleListComponent implements OnInit {
 
       subscription.unsubscribe();
     });
+  }
+
+  onArticlesBackup(): void {
+
+  }
+
+  onItemAdd(): void {
+    this.openNewItemDialog();
   }
 
   openNewItemDialog(): void {
@@ -110,27 +119,27 @@ export class ArticleListComponent implements OnInit {
     });
   }
 
-  editList(): void {
+  onListEdit(): void {
     this.multiMode = true;
   }
 
-  selectAll(): void {
+  onAllSelect(): void {
 
   }
 
-  deleteSelected(): void {
+  onSelectedDelete(): void {
 
   }
 
-  markSelectedAsDone(): void {
+  onSelectedMarkAsDone(): void {
 
   }
 
-  cancelEdit(): void {
+  onEditCanceled() {
     this.multiMode = false;
   }
 
-  logout() {
+  onLogout() {
     this.auth.logout();
   }
 }

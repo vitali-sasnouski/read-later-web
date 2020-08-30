@@ -7,9 +7,10 @@ import { AuthService } from '../auth/auth.service';
 import { ArticleListComponent } from './article-list/article-list.component';
 
 import { ArticlesRoutingModule } from './articles-routing.module';
+import { ArticleListToolbarComponent } from './article-list-toolbar/article-list-toolbar.component';
 
 @NgModule({
-  declarations: [ArticleListComponent],
+  declarations: [ArticleListComponent, ArticleListToolbarComponent],
   imports: [
     CommonModule,
     UIModule,

@@ -1,63 +1,16 @@
 <div *ngIf="loaded; else showLoading">
-  <mat-toolbar class="app-toolbar">
-    <span>Статьи v{{currentApplicationVersion}}</span>
-    <span class="toolbar-spacer"></span>
-
-    <button mat-icon-button
-            matTooltip="Отмена редактирования"
-            aria-label="Отмена редактирования"
-            (click)="cancelEdit()" *ngIf="multiMode">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Добавить"
-            aria-label="Добавить" 
-            (click)="openNewItemDialog()" *ngIf="!multiMode">
-      <mat-icon>add</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Редактировать"
-            aria-label="Редактировать" 
-            (click)="editList()" *ngIf="!multiMode">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Выбрать все"
-            aria-label="Выбрать все" 
-            (click)="selectAll()" *ngIf="multiMode">
-      <mat-icon>select_all</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Удалить"
-            aria-label="Удалить" 
-            (click)="deleteSelected()" *ngIf="multiMode">
-      <mat-icon>delete</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Прочитано"
-            aria-label="Прочитано" 
-            (click)="markSelectedAsDone()" *ngIf="multiMode">
-      <mat-icon>done</mat-icon>
-    </button>
-    <button mat-icon-button
-            matTooltip="Импортировать"
-            aria-label="Импортировать" 
-            (click)="importArticles()" *ngIf="!multiMode">
-      <mat-icon>import_export</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Выгрузить"
-            aria-label="Выгрузить" 
-            (click)="saveArticles()" *ngIf="!multiMode">
-      <mat-icon>save_alt</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Выйти"
-            aria-label="Выйти" 
-            (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-  </mat-toolbar>
+  <app-article-list-toolbar
+    (itemAdd) = onItemAdd($event)
+    (listEdit) = onListEdit($event)
+    (editCanceled) = onEditCanceled($event)
+    (allSelect) = onAllselect($event)
+    (selectedDelete) = onSelectedDelete($event)
+    (selectedMarkAsDone) = onSelectedMarkAsDone($event)
+    (articlesImport) = onArticlesImport($event)
+    (articlesExport) = onArticlesExport($event)
+    (articlesBackup) = onArticlesBackup($event)
+    (logout) = onLogout($event)>
+  </app-article-list-toolbar>
 
   <mat-nav-list class="article-list" *ngIf="!multiMode">
     <mat-list-item *ngFor="let item of items$ | async as Article">
