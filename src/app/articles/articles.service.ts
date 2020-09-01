@@ -127,4 +127,9 @@ export class ArticlesService {
         .orderBy('created')
     ).valueChanges();
   }
+
+  getAllItems(): Observable<Article[]> {
+    return this.afs.collection<Article>('articles', ref =>
+      ref.orderBy('created')).valueChanges();
+  }
 }

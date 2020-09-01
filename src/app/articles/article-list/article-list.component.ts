@@ -96,7 +96,14 @@ export class ArticleListComponent implements OnInit {
   }
 
   onArticlesBackup(): void {
+    const subscription: ISubscription = this.articles.getAllItems().subscribe(data => {
+      const timestamp = new Date().toISOString();
 
+      const blob = new Blob([JSON.stringify(data, null, '\t')], {type: 'application/json;charset=utf-8'});
+      saveAs(blob, `Readme_backup_${timestamp}.json`);
+
+      subscription.unsubscribe();
+    });
   }
 
   onItemAdd(): void {
