@@ -46,9 +46,9 @@ export class ArticlesService {
         .where('changed', '>=', this.currentDate)
     );
 
-    const items$ = observableCombineLatest(unreadArticlesRef.valueChanges(),
+    const items$ = observableCombineLatest([unreadArticlesRef.valueChanges(),
                      readArticlesRef.valueChanges(),
-                     deletedArticlesRef.valueChanges()).pipe(
+                     deletedArticlesRef.valueChanges()]).pipe(
       switchMap(articles => {
         const [unread, read, deleted] = articles;
 
