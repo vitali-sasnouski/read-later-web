@@ -1,7 +1,7 @@
 # ReadLater
 
 ## TODO
-* Add backup functionality
+* [x] Add backup functionality
 * Add the edit window
 
 ## Development server
