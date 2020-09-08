@@ -8,12 +8,12 @@ import { saveAs } from 'file-saver';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../auth/auth.service';
-import { ArticlesService } from '../articles.service';
+import { ArticlesService } from '../shared/articles.service';
+import { ToolbarAction } from '../shared/article-toolbar-action';
 
 import { ArticleBase, Article } from '../../model/article';
 import { ItemEditDialogComponent } from '../../item-edit-dialog/item-edit-dialog.component';
 import { ImportExportDialogComponent } from '../../import-export-dialog/import-export-dialog.component';
-import { ArticleListToolbarComponent } from '../article-list-toolbar/article-list-toolbar.component';
 
 @Component({
   selector: 'app-article-list',
@@ -58,7 +58,51 @@ export class ArticleListComponent implements OnInit {
     this.articles.undoDelete(item);
   }
 
-  onArticlesImport(): void {
+  onToolbarAction(action): void {
+    switch (action) {
+      case ToolbarAction.Add:
+        this.openNewItemDialog();
+        break;
+
+      case ToolbarAction.Import:
+        this.import();
+        break;
+
+      case ToolbarAction.Export:
+        this.export();
+        break;
+
+      case ToolbarAction.Backup:
+        this.backup();
+        break;
+
+      case ToolbarAction.EditList:
+        this.editList();
+        break;
+
+      case ToolbarAction.CancelEdit:
+        this.cancelEdit();
+        break;
+
+      case ToolbarAction.DeleteSelected:
+        this.deleteSelected();
+        break;
+
+      case ToolbarAction.MarkSelectedAsDone:
+        this.markSelectedAsDone();
+        break;
+
+      case ToolbarAction.SelectAll:
+        this.selectAll();
+        break;
+
+      case ToolbarAction.Logout:
+        this.logout();
+        break;
+    }
+  }
+
+  import(): void {
     const dialogRef = this.dialog.open(ImportExportDialogComponent, {
       width: '500px'
     });
@@ -80,7 +124,7 @@ export class ArticleListComponent implements OnInit {
     });
   }
 
-  onArticlesExport(): void {
+  export(): void {
     const subscription: ISubscription = this.articles.getActiveItems().subscribe(data => {
       const output = [];
 
@@ -95,7 +139,7 @@ export class ArticleListComponent implements OnInit {
     });
   }
 
-  onArticlesBackup(): void {
+  backup(): void {
     const subscription: ISubscription = this.articles.getAllItems().subscribe(data => {
       const timestamp = new Date().toISOString();
 
@@ -104,10 +148,6 @@ export class ArticleListComponent implements OnInit {
 
       subscription.unsubscribe();
     });
-  }
-
-  onItemAdd(): void {
-    this.openNewItemDialog();
   }
 
   openNewItemDialog(): void {
@@ -126,27 +166,27 @@ export class ArticleListComponent implements OnInit {
     });
   }
 
-  onListEdit(): void {
+  editList(): void {
     this.multiMode = true;
   }
 
-  onAllSelect(): void {
+  selectAll(): void {
 
   }
 
-  onSelectedDelete(): void {
+  deleteSelected(): void {
 
   }
 
-  onSelectedMarkAsDone(): void {
+  markSelectedAsDone(): void {
 
   }
 
-  onEditCanceled() {
+  cancelEdit() {
     this.multiMode = false;
   }
 
-  onLogout() {
+  logout() {
     this.auth.logout();
   }
 }

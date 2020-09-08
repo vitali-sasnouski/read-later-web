@@ -2,6 +2,7 @@
 
 ## TODO
 * [x] Add backup functionality
+* enhance Login page (log in by Enter, show an authorization error)
 * Add the edit window
 
 ## Development server

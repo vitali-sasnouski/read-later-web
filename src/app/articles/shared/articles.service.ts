@@ -9,8 +9,8 @@ import { switchMap } from 'rxjs/operators';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
-import { ArticleBase, Article } from '../model/article';
-import { LoadingService } from '../loading.service';
+import { ArticleBase, Article } from '../../model/article';
+import { LoadingService } from '../../loading.service';
 
 @Injectable({
   providedIn: 'root'

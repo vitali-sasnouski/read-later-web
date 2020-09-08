@@ -5,61 +5,61 @@
     <button mat-icon-button
             matTooltip="Отмена редактирования"
             aria-label="Отмена редактирования"
-            (click)="cancelEdit()" *ngIf="multiMode">
+            (click)="action.emit(toolbarAction.CancelEdit)" *ngIf="multiMode">
         <mat-icon>arrow_back</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Добавить"
             aria-label="Добавить" 
-            (click)="addItem()" *ngIf="!multiMode">
+            (click)="action.emit(toolbarAction.Add)" *ngIf="!multiMode">
         <mat-icon>add</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Редактировать"
             aria-label="Редактировать" 
-            (click)="editList()" *ngIf="!multiMode">
+            (click)="action.emit(toolbarAction.EditList)" *ngIf="!multiMode">
         <mat-icon>edit</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Выбрать все"
             aria-label="Выбрать все" 
-            (click)="selectAll()" *ngIf="multiMode">
+            (click)="action.emit(toolbarAction.SelectAll)" *ngIf="multiMode">
         <mat-icon>select_all</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Удалить"
             aria-label="Удалить" 
-            (click)="deleteSelected()" *ngIf="multiMode">
+            (click)="action.emit(toolbarAction.DeleteSelected)" *ngIf="multiMode">
         <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Прочитано"
             aria-label="Прочитано" 
-            (click)="markSelectedAsDone()" *ngIf="multiMode">
+            (click)="action.emit(toolbarAction.MarkSelectedAsDone)" *ngIf="multiMode">
         <mat-icon>done</mat-icon>
     </button>
     <button mat-icon-button
             matTooltip="Импортировать"
             aria-label="Импортировать" 
-            (click)="importArticles()" *ngIf="!multiMode">
+            (click)="action.emit(toolbarAction.Import)" *ngIf="!multiMode">
         <mat-icon>import_export</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Выгрузить"
             aria-label="Выгрузить" 
-            (click)="exportArticles()" *ngIf="!multiMode">
+            (click)="action.emit(toolbarAction.Export)" *ngIf="!multiMode">
         <mat-icon>save_alt</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Выполнить резервное копирование"
             aria-label="Выполнить резервное копирование" 
-            (click)="backupArticles()" *ngIf="!multiMode">
+            (click)="action.emit(toolbarAction.Backup)" *ngIf="!multiMode">
         <mat-icon>backup</mat-icon>
     </button>
     <button mat-icon-button 
             matTooltip="Выйти"
             aria-label="Выйти" 
-            (click)="logout.emit()">
+            (click)="action.emit(toolbarAction.Logout)">
         <mat-icon>exit_to_app</mat-icon>
     </button>
 </mat-toolbar>

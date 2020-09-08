@@ -1,15 +1,6 @@
 <div *ngIf="loaded; else showLoading">
   <app-article-list-toolbar
-    (itemAdd) = onItemAdd($event)
-    (listEdit) = onListEdit($event)
-    (editCanceled) = onEditCanceled($event)
-    (allSelect) = onAllselect($event)
-    (selectedDelete) = onSelectedDelete($event)
-    (selectedMarkAsDone) = onSelectedMarkAsDone($event)
-    (articlesImport) = onArticlesImport($event)
-    (articlesExport) = onArticlesExport($event)
-    (articlesBackup) = onArticlesBackup($event)
-    (logout) = onLogout($event)>
+    (action) = onToolbarAction($event)>
   </app-article-list-toolbar>
 
   <mat-nav-list class="article-list" *ngIf="!multiMode">
