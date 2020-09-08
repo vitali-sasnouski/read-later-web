@@ -38,29 +38,41 @@
             (click)="action.emit(toolbarAction.MarkSelectedAsDone)" *ngIf="multiMode">
         <mat-icon>done</mat-icon>
     </button>
-    <button mat-icon-button
-            matTooltip="Импортировать"
-            aria-label="Импортировать" 
-            (click)="action.emit(toolbarAction.Import)" *ngIf="!multiMode">
-        <mat-icon>import_export</mat-icon>
-    </button>
     <button mat-icon-button 
-            matTooltip="Выгрузить"
-            aria-label="Выгрузить" 
-            (click)="action.emit(toolbarAction.Export)" *ngIf="!multiMode">
-        <mat-icon>save_alt</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Выполнить резервное копирование"
-            aria-label="Выполнить резервное копирование" 
-            (click)="action.emit(toolbarAction.Backup)" *ngIf="!multiMode">
-        <mat-icon>backup</mat-icon>
-    </button>
-    <button mat-icon-button 
-            matTooltip="Выйти"
-            aria-label="Выйти" 
-            (click)="action.emit(toolbarAction.Logout)">
-        <mat-icon>exit_to_app</mat-icon>
+            matTooltip="Аккаунт"
+            aria-label="Аккаунт" 
+            mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
     </button>
 </mat-toolbar>
+
+<mat-menu #menu="matMenu">
+    <ng-template matMenuContent let-item="item">
+        <button mat-menu-item
+                aria-label="Импортировать" 
+                (click)="action.emit(toolbarAction.Import)" *ngIf="!multiMode">
+            <mat-icon>import_export</mat-icon>
+            <span>Импортировать</span>
+        </button>
+        <button mat-menu-item
+                aria-label="Экспортировать" 
+                (click)="action.emit(toolbarAction.Export)" *ngIf="!multiMode">
+            <mat-icon>save_alt</mat-icon>
+            <span>Экспортировать</span>
+        </button>
+        <button mat-menu-item
+                aria-label="Выполнить резервное копирование" 
+                (click)="action.emit(toolbarAction.Backup)" *ngIf="!multiMode">
+            <mat-icon>cloud_download</mat-icon>
+            <span>Резервное копирование</span>
+        </button>
+        <button mat-menu-item
+                aria-label="Выйти" 
+                (click)="action.emit(toolbarAction.Logout)">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Выйти</span>
+        </button>
+    </ng-template>
+</mat-menu>
+
 
