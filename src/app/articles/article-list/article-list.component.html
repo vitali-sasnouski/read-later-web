@@ -1,5 +1,6 @@
 <div *ngIf="loaded; else showLoading">
   <app-article-list-toolbar
+    [multiMode] = multiMode
     (action) = onToolbarAction($event)>
   </app-article-list-toolbar>
 

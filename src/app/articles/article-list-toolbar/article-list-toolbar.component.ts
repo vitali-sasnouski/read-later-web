@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
 
@@ -11,11 +11,11 @@ import { ToolbarAction } from '../shared/article-toolbar-action';
 })
 export class ArticleListToolbarComponent implements OnInit {
 
-  public currentApplicationVersion: string = environment.appVersion;
-  public multiMode = false;
-  public readonly toolbarAction: typeof ToolbarAction = ToolbarAction;
-
+  @Input() multiMode: Boolean;
   @Output() action = new EventEmitter<ToolbarAction>();
+
+  public currentApplicationVersion: string = environment.appVersion;
+  public readonly toolbarAction: typeof ToolbarAction = ToolbarAction;
 
   constructor() { }
 

@@ -24,7 +24,6 @@ export class ArticleListComponent implements OnInit {
 
   public items$: Observable<Article[]>;
   public multiMode = false;
-  public unreadItems: Article[];
   public loaded = false;
   public currentApplicationVersion: string = environment.appVersion;
 
