@@ -1,8 +1,12 @@
 <div *ngIf="loaded; else showLoading">
   <app-article-list-toolbar
-    [multiMode] = multiMode
-    (action) = onToolbarAction($event)>
+    [multiMode]=multiMode
+    (action)=onToolbarAction($event)>
   </app-article-list-toolbar>
+
+  <div>
+    Selected: {{ selectedArticles | json }}
+  </div>
 
   <mat-nav-list class="article-list" *ngIf="!multiMode">
     <mat-list-item *ngFor="let item of items$ | async as Article">
@@ -21,8 +25,8 @@
     </mat-list-item>
   </mat-nav-list>
 
-  <mat-selection-list *ngIf="multiMode">
-    <mat-list-option *ngFor="let item of items$ | async as Article">
+  <mat-selection-list #muliSelectList *ngIf="multiMode" [(ngModel)]="selectedArticles">
+    <mat-list-option *ngFor="let item of items$ | async as Article" [value]="item.id">
       {{ item.title }}
     </mat-list-option>
   </mat-selection-list>

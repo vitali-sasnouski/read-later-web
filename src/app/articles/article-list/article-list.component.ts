@@ -1,7 +1,8 @@
 import { Observable, SubscriptionLike as ISubscription, from } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
 
 import { saveAs } from 'file-saver';
 
@@ -26,6 +27,11 @@ export class ArticleListComponent implements OnInit {
   public multiMode = false;
   public loaded = false;
   public currentApplicationVersion: string = environment.appVersion;
+
+  public selectedArticles: string[];
+
+  @ViewChild('muliSelectList')
+  private muliSelectList: MatSelectionList;
 
   constructor(private articles: ArticlesService,
               private auth: AuthService,
@@ -170,7 +176,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   selectAll(): void {
-
+    this.muliSelectList.selectAll();
   }
 
   deleteSelected(): void {
