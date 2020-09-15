@@ -4,9 +4,11 @@
     (action)=onToolbarAction($event)>
   </app-article-list-toolbar>
 
+  <!--
   <div>
     Selected: {{ selectedArticles | json }}
   </div>
+-->
 
   <mat-nav-list class="article-list" *ngIf="!multiMode">
     <mat-list-item *ngFor="let item of items$ | async as Article">
