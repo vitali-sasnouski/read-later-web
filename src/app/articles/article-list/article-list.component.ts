@@ -28,7 +28,7 @@ export class ArticleListComponent implements OnInit {
   public loaded = false;
   public currentApplicationVersion: string = environment.appVersion;
 
-  public selectedArticles: string[];
+  public selectedArticles: Article[];
 
   @ViewChild('muliSelectList')
   private muliSelectList: MatSelectionList;
@@ -176,7 +176,11 @@ export class ArticleListComponent implements OnInit {
   }
 
   selectAll(): void {
-    this.muliSelectList.selectAll();
+    if (!this.selectedArticles || !this.selectedArticles.length) {
+      this.muliSelectList.selectAll();
+    } else {
+      this.muliSelectList.deselectAll();
+    }
   }
 
   deleteSelected(): void {
@@ -188,6 +192,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   cancelEdit() {
+    this.muliSelectList.deselectAll();
     this.multiMode = false;
   }
 
