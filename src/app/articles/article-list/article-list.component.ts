@@ -24,6 +24,7 @@ import { ImportExportDialogComponent } from '../../import-export-dialog/import-e
 export class ArticleListComponent implements OnInit {
 
   public items$: Observable<Article[]>;
+  public activeItems$: Observable<Article[]>;
   public multiMode = false;
   public loaded = false;
   public currentApplicationVersion: string = environment.appVersion;
@@ -41,6 +42,7 @@ export class ArticleListComponent implements OnInit {
 
   ngOnInit() {
     this.items$ = this.articles.fetchData();
+    this.activeItems$ = this.articles.getActiveItems();
   }
 
   addItem(item: ArticleBase): void {
@@ -130,7 +132,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   export(): void {
-    const subscription: ISubscription = this.articles.getActiveItems().subscribe(data => {
+    const subscription: ISubscription = this.activeItems$.subscribe(data => {
       const output = [];
 
       data.forEach(item => {
@@ -184,11 +186,13 @@ export class ArticleListComponent implements OnInit {
   }
 
   deleteSelected(): void {
-
+    this.selectedArticles.forEach(article => this.deleteItem(article));
+    this.selectedArticles = [];
   }
 
   markSelectedAsDone(): void {
-
+    this.selectedArticles.forEach(article => this.markItemAsDone(article));
+    this.selectedArticles = [];
   }
 
   cancelEdit() {

@@ -4,12 +4,6 @@
     (action)=onToolbarAction($event)>
   </app-article-list-toolbar>
 
-  <!--
-  <div>
-    Selected: {{ selectedArticles | json }}
-  </div>
--->
-
   <mat-nav-list class="article-list" *ngIf="!multiMode">
     <mat-list-item *ngFor="let item of items$ | async as Article">
       <a matLine [attr.href]="item.url" target="_blank" 
@@ -28,7 +22,7 @@
   </mat-nav-list>
 
   <mat-selection-list #muliSelectList *ngIf="multiMode" [(ngModel)]="selectedArticles">
-    <mat-list-option *ngFor="let item of items$ | async as Article" [value]="item">
+    <mat-list-option *ngFor="let item of activeItems$ | async as Article" [value]="item">
       {{ item.title }}
     </mat-list-option>
   </mat-selection-list>
