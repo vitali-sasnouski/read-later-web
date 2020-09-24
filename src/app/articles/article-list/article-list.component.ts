@@ -53,10 +53,6 @@ export class ArticleListComponent implements OnInit {
     this.articles.markItemAsDone(item);
   }
 
-  editItem(id: string): void {
-
-  }
-
   deleteItem(item: Article): void {
     this.articles.deleteItem(item);
   }

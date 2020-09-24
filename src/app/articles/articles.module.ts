@@ -9,11 +9,13 @@ import { ArticleListComponent } from './article-list/article-list.component';
 
 import { ArticlesRoutingModule } from './articles-routing.module';
 import { ArticleListToolbarComponent } from './article-list-toolbar/article-list-toolbar.component';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 @NgModule({
   declarations: [
     ArticleListComponent,
-    ArticleListToolbarComponent
+    ArticleListToolbarComponent,
+    ArticleDetailComponent
   ],
   imports: [
     CommonModule,
