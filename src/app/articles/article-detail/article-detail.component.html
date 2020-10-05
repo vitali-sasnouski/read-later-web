@@ -1,1 +1,13 @@
 <p>{{ id }}</p>
+
+<form [formGroup]="articleForm">
+    <label>
+        Название:
+        <input type="text" formControlName="title">
+    </label>
+
+    <label>
+        URL:
+        <input type="url" formControlName="url">
+    </label>
+</form>

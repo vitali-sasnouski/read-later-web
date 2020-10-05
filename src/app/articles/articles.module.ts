@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UIModule } from '../ui/ui.module';
 import { AuthService } from '../auth/auth.service';
@@ -20,6 +20,7 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     UIModule,
     ArticlesRoutingModule
   ],

@@ -72,6 +72,10 @@ export class ArticlesService {
     return items$;
   }
 
+  fetchItem(id: string): Observable<unknown> {
+    return this.afs.collection<Article>('articles').doc(id).valueChanges();
+  }
+
   addItem(item: ArticleBase): void {
     const id = this.afs.createId(),
           created = new Date();
