@@ -1,13 +1,22 @@
-<p>{{ id }}</p>
+<form [formGroup]="articleForm" (ngSubmit)="onFormSubmit()" class="article-form">
+    <mat-form-field class="article-full-width">
+        <mat-label>Заголовок</mat-label>
+        <textarea matInput required type="text" formControlName="title"></textarea>
+        <mat-error *ngIf="articleForm.get('title').hasError('required')">
+            Укажите название заметки
+        </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="article-full-width">
+        <mat-label>URL</mat-label>
+        <input matInput required type="url" formControlName="url">
+        <mat-error *ngIf="articleForm.get('url').hasError('required')">
+            Укажите адрес заметки
+        </mat-error>
+    </mat-form-field>
 
-<form [formGroup]="articleForm">
-    <label>
-        Название:
-        <input type="text" formControlName="title">
-    </label>
-
-    <label>
-        URL:
-        <input type="url" formControlName="url">
-    </label>
+    <div class="button-row">
+        <button mat-raised-button>Отмена</button>
+        <button mat-raised-button type="submit" color="primary">Сохранить</button>    
+    </div>
 </form>

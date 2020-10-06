@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -15,11 +15,9 @@ import { Article } from '../../model/article';
 })
 export class ArticleDetailComponent implements OnInit {
 
-  public id: string;
-
   public articleForm = new FormGroup({
-    title: new FormControl(''),
-    url: new FormControl('')
+    title: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -30,10 +28,8 @@ export class ArticleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = params.get('id');
-
       const subscription = this.articleService
-        .fetchItem(this.id)
+        .fetchItem(params.get('id'))
         .subscribe((doc: Article) => {
           subscription.unsubscribe();
 
@@ -41,5 +37,9 @@ export class ArticleDetailComponent implements OnInit {
           this.articleForm.get('url').setValue(doc.url);
         });
     });
+  }
+
+  onFormSubmit() {
+    debugger;
   }
 }
