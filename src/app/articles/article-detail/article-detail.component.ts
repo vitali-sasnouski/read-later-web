@@ -15,6 +15,8 @@ import { Article } from '../../model/article';
 })
 export class ArticleDetailComponent implements OnInit {
 
+  private article: Article;
+
   public articleForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     url: new FormControl('', [Validators.required])
@@ -35,11 +37,16 @@ export class ArticleDetailComponent implements OnInit {
 
           this.articleForm.get('title').setValue(doc.title);
           this.articleForm.get('url').setValue(doc.url);
+
+          this.article = { ...doc };
         });
     });
   }
 
   onFormSubmit() {
-    debugger;
+    this.article.title = this.articleForm.get('title').value;
+    this.article.url = this.articleForm.get('url').value;
+
+    this.articleService.updateItem(this.article);
   }
 }

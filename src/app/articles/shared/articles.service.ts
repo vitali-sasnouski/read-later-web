@@ -101,8 +101,8 @@ export class ArticlesService {
     this.itemCollection.doc(item.id).update(updated);
   }
 
-  editItem(id: string): void {
-
+  updateItem(item: Article): void {
+    this.itemCollection.doc(item.id).update(item);
   }
 
   deleteItem(item: Article): void {
