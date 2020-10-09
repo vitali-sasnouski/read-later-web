@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 
 import { ArticlesService } from '../shared/articles.service';
 import { Article } from '../../model/article';
+import { LoadingService } from '../../loading.service';
 
 @Component({
   selector: 'app-article-detail',
@@ -27,6 +28,7 @@ export class ArticleDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private articleService: ArticlesService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +59,8 @@ export class ArticleDetailComponent implements OnInit {
         this.articleForm.get('url').setValue(doc.url);
 
         this.article = { ...doc };
+
+        this.loadingService.stop();
     });
   }
 }
