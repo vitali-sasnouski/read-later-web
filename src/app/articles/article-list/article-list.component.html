@@ -21,7 +21,7 @@
     </mat-list-item>
   </mat-nav-list>
 
-  <mat-selection-list #muliSelectList *ngIf="multiMode" [(ngModel)]="selectedArticles">
+  <mat-selection-list #multiSelectList *ngIf="multiMode" [(ngModel)]="selectedArticles">
     <mat-list-option *ngFor="let item of activeItems$ | async as Article" [value]="item">
       {{ item.title }}
     </mat-list-option>
