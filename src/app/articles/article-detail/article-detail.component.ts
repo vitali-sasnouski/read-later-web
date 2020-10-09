@@ -15,6 +15,7 @@ import { Article } from '../../model/article';
 })
 export class ArticleDetailComponent implements OnInit {
 
+  private id: string;
   private article: Article;
 
   public articleForm = new FormGroup({
@@ -30,16 +31,8 @@ export class ArticleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      const subscription = this.articleService
-        .fetchItem(params.get('id'))
-        .subscribe((doc: Article) => {
-          subscription.unsubscribe();
-
-          this.articleForm.get('title').setValue(doc.title);
-          this.articleForm.get('url').setValue(doc.url);
-
-          this.article = { ...doc };
-        });
+      this.id = params.get('id');
+      this.fetchArticleDetail();
     });
   }
 
@@ -48,5 +41,22 @@ export class ArticleDetailComponent implements OnInit {
     this.article.url = this.articleForm.get('url').value;
 
     this.articleService.updateItem(this.article);
+  }
+
+  onCancel() {
+    this.fetchArticleDetail();
+  }
+
+  fetchArticleDetail() {
+    const subscription = this.articleService
+      .fetchItem(this.id)
+      .subscribe((doc: Article) => {
+        subscription.unsubscribe();
+
+        this.articleForm.get('title').setValue(doc.title);
+        this.articleForm.get('url').setValue(doc.url);
+
+        this.article = { ...doc };
+    });
   }
 }
