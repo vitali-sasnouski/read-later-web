@@ -8,6 +8,7 @@ import { of as observableOf,
 import { switchMap } from 'rxjs/operators';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
 
 import { ArticleBase, Article } from '../../model/article';
 import { LoadingService } from '../../loading.service';
@@ -78,7 +79,7 @@ export class ArticlesService {
 
   addItem(item: ArticleBase): void {
     const id = this.afs.createId(),
-          created = new Date();
+          created = firebase.firestore.FieldValue.serverTimestamp();
 
     const article: Article = {
       id: id,
@@ -95,7 +96,7 @@ export class ArticlesService {
   markItemAsDone(item: Article): void {
     const updated = { ...item };
 
-    updated.changed = new Date();
+    updated.changed = firebase.firestore.Timestamp.fromDate(new Date());
     updated.read = true;
 
     this.itemCollection.doc(item.id).update(updated);
@@ -108,7 +109,7 @@ export class ArticlesService {
   deleteItem(item: Article): void {
     const updated = { ...item };
 
-    updated.changed = new Date();
+    updated.changed = firebase.firestore.Timestamp.fromDate(new Date());
     updated.deleted = true;
 
     this.itemCollection.doc(item.id).update(updated);
@@ -117,7 +118,7 @@ export class ArticlesService {
   undoDelete(item: Article): void {
     const updated = { ...item };
 
-    updated.changed = new Date();
+    updated.changed = firebase.firestore.Timestamp.fromDate(new Date());
     updated.deleted = false;
 
     this.itemCollection.doc(item.id).update(updated);

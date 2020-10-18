@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import * as firebase from 'firebase/app';
+import * as moment from 'moment';
+
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -21,7 +24,9 @@ export class ArticleDetailComponent implements OnInit {
 
   public articleForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    url: new FormControl('', [Validators.required])
+    url: new FormControl('', [Validators.required]),
+    created: new FormControl({ value: new Date(), disabled: true }),
+    changed: new FormControl({ value: new Date(), disabled: true })
   });
 
   constructor(
@@ -32,6 +37,8 @@ export class ArticleDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    moment.locale('ru');
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id = params.get('id');
       this.fetchArticleDetail();
@@ -57,6 +64,12 @@ export class ArticleDetailComponent implements OnInit {
 
         this.articleForm.get('title').setValue(doc.title);
         this.articleForm.get('url').setValue(doc.url);
+
+        const created = (doc.created as firebase.firestore.Timestamp).toDate();
+        this.articleForm.get('created').setValue(moment(created).format('L LTS'));
+
+        const changed = (doc.changed as firebase.firestore.Timestamp).toDate();
+        this.articleForm.get('changed').setValue(moment(changed).format('L LTS'));
 
         this.article = { ...doc };
 
