@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authSevice: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -25,13 +25,13 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(url: string): Observable<boolean> {
-    return this.authSevice.isSignedIn().pipe(
+    return this.authService.isSignedIn().pipe(
       map(v => {
         if (v) {
           return true;
         }
 
-        this.authSevice.redirectUrl = url;
+        this.authService.redirectUrl = url;
         this.router.navigate(['/login']);
 
         return false;

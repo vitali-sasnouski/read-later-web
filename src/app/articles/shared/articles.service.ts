@@ -7,8 +7,9 @@ import { of as observableOf,
 
 import { switchMap } from 'rxjs/operators';
 
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import * as firebase from 'firebase/app';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+
+import firebase from 'firebase/compat/app';
 
 import { ArticleBase, Article } from '../../model/article';
 import { LoadingService } from '../../loading.service';

@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import * as moment from 'moment';
-
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 import { ArticlesService } from '../shared/articles.service';
 import { Article } from '../../model/article';
