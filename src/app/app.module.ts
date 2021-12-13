@@ -43,10 +43,6 @@ import { ArticlesModule } from './articles/articles.module';
     ArticlesModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-/*    
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-*/    
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthService],
