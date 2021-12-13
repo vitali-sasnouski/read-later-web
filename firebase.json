@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "read-later-b98df",
     "public": "dist/read-later",
     "ignore": [
       "firebase.json",
