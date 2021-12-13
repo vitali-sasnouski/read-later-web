@@ -21,7 +21,7 @@
     </mat-list-item>
   </mat-nav-list>
 
-  <mat-selection-list #muliSelectList *ngIf="multiMode" [(ngModel)]="selectedArticles">
+  <mat-selection-list #multiSelectList *ngIf="multiMode" [(ngModel)]="selectedArticles">
     <mat-list-option *ngFor="let item of activeItems$ | async as Article" [value]="item">
       {{ item.title }}
     </mat-list-option>
@@ -33,10 +33,10 @@
         <mat-icon>done</mat-icon>
         <span>Прочитано</span>
       </button>
-      <button mat-menu-item (click)="editItem(item.id)">
+      <a mat-menu-item [routerLink]="['/articles', item.id]">
         <mat-icon>edit</mat-icon>
         <span>Редактировать</span>
-      </button>
+      </a>
       <button mat-menu-item (click)="deleteItem(item)">
         <mat-icon>delete</mat-icon>
         <span>Удалить</span>

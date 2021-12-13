@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.auth.login(this.credentials.email, this.credentials.password)
-      .subscribe(
-        user => {
+      .subscribe({
+        next: (user) => {
           const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '';
 
           // Set our navigation extras object
@@ -38,9 +38,9 @@ export class LoginComponent implements OnInit {
           // Redirect the user
           this.router.navigateByUrl(redirect, navigationExtras);
         },
-        error => {
+        error: (error) => {
           console.error('Login error:', error.message);
         }
-      );
+      });
   }
 }

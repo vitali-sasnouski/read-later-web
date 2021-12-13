@@ -7,7 +7,9 @@ import { of as observableOf,
 
 import { switchMap } from 'rxjs/operators';
 
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+
+import firebase from 'firebase/compat/app';
 
 import { ArticleBase, Article } from '../../model/article';
 import { LoadingService } from '../../loading.service';
@@ -72,9 +74,13 @@ export class ArticlesService {
     return items$;
   }
 
+  fetchItem(id: string): Observable<unknown> {
+    return this.afs.collection<Article>('articles').doc(id).valueChanges();
+  }
+
   addItem(item: ArticleBase): void {
     const id = this.afs.createId(),
-          created = new Date();
+          created = firebase.firestore.FieldValue.serverTimestamp();
 
     const article: Article = {
       id: id,
@@ -91,20 +97,20 @@ export class ArticlesService {
   markItemAsDone(item: Article): void {
     const updated = { ...item };
 
-    updated.changed = new Date();
+    updated.changed = firebase.firestore.Timestamp.fromDate(new Date());
     updated.read = true;
 
     this.itemCollection.doc(item.id).update(updated);
   }
 
-  editItem(id: string): void {
-
+  updateItem(item: Article): void {
+    this.itemCollection.doc(item.id).update(item);
   }
 
   deleteItem(item: Article): void {
     const updated = { ...item };
 
-    updated.changed = new Date();
+    updated.changed = firebase.firestore.Timestamp.fromDate(new Date());
     updated.deleted = true;
 
     this.itemCollection.doc(item.id).update(updated);
@@ -113,7 +119,7 @@ export class ArticlesService {
   undoDelete(item: Article): void {
     const updated = { ...item };
 
-    updated.changed = new Date();
+    updated.changed = firebase.firestore.Timestamp.fromDate(new Date());
     updated.deleted = false;
 
     this.itemCollection.doc(item.id).update(updated);

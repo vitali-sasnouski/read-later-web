@@ -31,8 +31,8 @@ export class ArticleListComponent implements OnInit {
 
   public selectedArticles: Article[];
 
-  @ViewChild('muliSelectList')
-  private muliSelectList: MatSelectionList;
+  @ViewChild('multiSelectList')
+  private multiSelectList: MatSelectionList;
 
   constructor(private articles: ArticlesService,
               private auth: AuthService,
@@ -51,10 +51,6 @@ export class ArticleListComponent implements OnInit {
 
   markItemAsDone(item: Article): void {
     this.articles.markItemAsDone(item);
-  }
-
-  editItem(id: string): void {
-
   }
 
   deleteItem(item: Article): void {
@@ -179,9 +175,9 @@ export class ArticleListComponent implements OnInit {
 
   selectAll(): void {
     if (!this.selectedArticles || !this.selectedArticles.length) {
-      this.muliSelectList.selectAll();
+      this.multiSelectList.selectAll();
     } else {
-      this.muliSelectList.deselectAll();
+      this.multiSelectList.deselectAll();
     }
   }
 
@@ -196,7 +192,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   cancelEdit() {
-    this.muliSelectList.deselectAll();
+    this.multiSelectList.deselectAll();
     this.multiMode = false;
   }
 

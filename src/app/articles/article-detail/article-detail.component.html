@@ -1,0 +1,32 @@
+<form [formGroup]="articleForm" (ngSubmit)="onFormSubmit()" class="article-form">
+    <mat-form-field class="article-full-width">
+        <mat-label>Заголовок</mat-label>
+        <textarea matInput required type="text" formControlName="title"></textarea>
+        <mat-error *ngIf="articleForm.get('title').hasError('required')">
+            Укажите название заметки
+        </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="article-full-width">
+        <mat-label>URL</mat-label>
+        <input matInput required type="url" formControlName="url">
+        <mat-error *ngIf="articleForm.get('url').hasError('required')">
+            Укажите адрес заметки
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="article-full-width">
+        <mat-label>Дата создания</mat-label>
+        <input matInput formControlName="created">
+    </mat-form-field>
+
+    <mat-form-field class="article-full-width">
+        <mat-label>Дата изменения</mat-label>
+        <input matInput formControlName="changed">
+    </mat-form-field>
+
+    <div class="button-row">
+        <button mat-raised-button type="button" (click)="onCancel()">Отмена</button>
+        <button mat-raised-button type="submit" color="primary">Сохранить</button>    
+    </div>
+</form>
