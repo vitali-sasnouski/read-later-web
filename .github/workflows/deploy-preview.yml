@@ -1,9 +1,9 @@
-name: Deploy to Production
+name: Deploy to Preview Channel
 
 on:
   push:
     branches:
-      - main
+      - development
 
 jobs:
   deploy_website:
@@ -19,5 +19,6 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_READ_LATER_WEB }}"
+          expires: 2d
           projectId: read-later-b98df
           channelId: live
