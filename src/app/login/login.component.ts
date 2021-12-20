@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private auth: AuthService,
-              private router: Router) {
+              private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -38,8 +41,10 @@ export class LoginComponent implements OnInit {
           // Redirect the user
           this.router.navigateByUrl(redirect, navigationExtras);
         },
-        error: (error) => {
-          console.error('Login error:', error.message);
+        error: (regError) => {
+          this.snackBar.open(regError.message, '', { duration: 5000 });
+          console.error('Login error:', regError.message);
+          console.log(regError);
         }
       });
   }
