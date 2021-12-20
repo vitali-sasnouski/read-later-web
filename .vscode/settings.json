@@ -8,5 +8,11 @@
         "tslib",
         "types",
         "types jasminewd"
+    ],
+    "cSpell.words": [
+        "apng",
+        "avif",
+        "prefetch",
+        "webp"
     ]
 }

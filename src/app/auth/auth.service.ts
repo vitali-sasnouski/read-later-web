@@ -15,9 +15,9 @@ import { LoadingService } from '../loading.service';
 })
 export class AuthService {
   isLoggedIn = false;
-  redirectUrl: string;
-  private isLoaded: boolean;
-  user$: Observable<firebase.User>;
+  redirectUrl = '';
+  private isLoaded = false;
+  user$: Observable<firebase.User | null>;
 
   constructor(public firebaseAuth: AngularFireAuth,
               private router: Router,

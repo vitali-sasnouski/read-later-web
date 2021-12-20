@@ -23,16 +23,16 @@ import { ImportExportDialogComponent } from '../../import-export-dialog/import-e
 })
 export class ArticleListComponent implements OnInit {
 
-  public items$: Observable<Article[]>;
-  public activeItems$: Observable<Article[]>;
+  public items$!: Observable<Article[]>;
+  public activeItems$!: Observable<Article[]>;
   public multiMode = false;
   public loaded = false;
   public currentApplicationVersion: string = environment.appVersion;
 
-  public selectedArticles: Article[];
+  public selectedArticles!: Article[];
 
   @ViewChild('multiSelectList')
-  private multiSelectList: MatSelectionList;
+  private multiSelectList!: MatSelectionList;
 
   constructor(private articles: ArticlesService,
               private auth: AuthService,
@@ -61,7 +61,7 @@ export class ArticleListComponent implements OnInit {
     this.articles.undoDelete(item);
   }
 
-  onToolbarAction(action): void {
+  onToolbarAction(action: ToolbarAction): void {
     switch (action) {
       case ToolbarAction.Add:
         this.openNewItemDialog();
@@ -129,7 +129,7 @@ export class ArticleListComponent implements OnInit {
 
   export(): void {
     const subscription: ISubscription = this.activeItems$.subscribe(data => {
-      const output = [];
+      const output: BlobPart[] = [];
 
       data.forEach(item => {
         output.push(`[${item.title}](${item.url})\n\n`);
