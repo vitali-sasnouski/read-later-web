@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../auth/auth.service';
@@ -12,10 +13,8 @@ import { AuthService } from '../auth/auth.service';
 })
 export class LoginComponent  {
 
-  public credentials = {
-    email: '',
-    password: ''
-  };
+  public emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  public passwordFormControl = new FormControl('', [Validators.required]);
 
   constructor(private auth: AuthService,
               private router: Router,
@@ -23,7 +22,7 @@ export class LoginComponent  {
   }
 
   login(): void {
-    this.auth.login(this.credentials.email, this.credentials.password)
+    this.auth.login(this.emailFormControl.value, this.passwordFormControl.value)
       .subscribe({
         next: user => {
           const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '';
