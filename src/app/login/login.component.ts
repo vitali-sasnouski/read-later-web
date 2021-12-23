@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent  {
 
   public credentials = {
     email: '',
@@ -22,13 +22,10 @@ export class LoginComponent implements OnInit {
               private snackBar: MatSnackBar) {
   }
 
-  ngOnInit() {
-  }
-
   login(): void {
     this.auth.login(this.credentials.email, this.credentials.password)
       .subscribe({
-        next: (user) => {
+        next: user => {
           const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '';
 
           // Set our navigation extras object
@@ -41,10 +38,16 @@ export class LoginComponent implements OnInit {
           // Redirect the user
           this.router.navigateByUrl(redirect, navigationExtras);
         },
-        error: (regError) => {
-          this.snackBar.open(regError.message, '', { duration: 5000 });
-          console.error('Login error:', regError.message);
-          console.log(regError);
+        error: regError => {
+          const sb = this.snackBar.open(regError.message, 'Close', {
+            verticalPosition: 'top',
+            duration: 5000,
+            panelClass: ['login-snackbar-error']
+          });
+
+          sb.onAction().subscribe(() => {
+            sb.dismiss();
+          });
         }
       });
   }

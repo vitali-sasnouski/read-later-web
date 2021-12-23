@@ -6,7 +6,7 @@ import firebase from 'firebase/compat/app';
 
 import { Observable, Subject } from 'rxjs';
 import { map, tap, finalize } from 'rxjs/operators';
-import { of, from } from 'rxjs';
+import { of, from, catchError } from 'rxjs';
 
 import { LoadingService } from '../loading.service';
 
