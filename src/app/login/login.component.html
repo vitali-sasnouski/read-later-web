@@ -13,18 +13,18 @@
             Please enter a valid email address
           </mat-error>
           <mat-error *ngIf="emailFormControl.hasError('required')">
-            Email is <strong>required</strong>
+            Email is required
           </mat-error>          
         </mat-form-field>
 
         <mat-form-field class="input-full-width">
-          <input type="password" matInput (keydown.enter)="login()" [formControl]="passwordFormControl" placeholder="Password">
-          <button matSuffix mat-icon-button aria-label="Show password">
-            <mat-icon>visibility_off</mat-icon>
+          <input [type]="passwordFieldType" matInput (keydown.enter)="login()" [formControl]="passwordFormControl" placeholder="Password">
+          <button matSuffix mat-icon-button aria-label="Show password" (click)="togglePasswordVisibility()">
+            <mat-icon>{{passwordVisibilityIcon}}</mat-icon>
           </button>
           <mat-icon matSuffix>lock</mat-icon>
           <mat-error *ngIf="passwordFormControl.hasError('required')">
-            Password is <strong>required</strong>
+            Password is required
           </mat-error>          
         </mat-form-field>
       </form>

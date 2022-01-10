@@ -16,6 +16,12 @@ export class LoginComponent  {
   public emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   public passwordFormControl = new FormControl('', [Validators.required]);
 
+  public passwordFieldType = 'password';
+  public passwordVisibilityIcon = 'visibility_off';
+
+  private isPasswordVisible = false;
+
+
   constructor(private auth: AuthService,
               private router: Router,
               private snackBar: MatSnackBar) {
@@ -49,5 +55,12 @@ export class LoginComponent  {
           });
         }
       });
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+
+    this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
+    this.passwordVisibilityIcon = this.isPasswordVisible ? 'visibility_on' : 'visibility_off';
   }
 }
