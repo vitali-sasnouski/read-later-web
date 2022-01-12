@@ -27,6 +27,7 @@
     "@angular/pwa": "^13.0.4",
     "@angular/router": "^13.0.3",
     "@angular/service-worker": "^13.0.3",
+    "@ngneat/transloco": "^3.1.1",
     "core-js": "^3.19.3",
     "file-saver": "^2.0.5",
     "firebase": "^9.6.0",

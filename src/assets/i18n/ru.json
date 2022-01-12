@@ -1,0 +1,11 @@
+{
+    "loginPage": {
+        "title": "Страница Авторизации",
+        "email": "Почта",
+        "password": "Пароль",
+        "login": "Войти",
+        "noValidEmail": "Пожалуйста, введите правильную почту",
+        "emailRequired": "Укажите почту",
+        "passwordRequired": "Укажите пароль"
+    }    
+}
