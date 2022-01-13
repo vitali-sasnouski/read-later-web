@@ -15,6 +15,7 @@
         "ngneat",
         "prefetch",
         "Transloco",
-        "webp"
+        "webp",
+        "unflat"
     ]
 }
