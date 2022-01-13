@@ -9,7 +9,7 @@
     "test": "npx ng test",
     "lint": "npx ng lint read-later",
     "e2e": "npx ng e2e",
-    "up_version": "npm --no-git-tag-version version patch",
+    "up_version": "npm --no-git-tag-version version minor",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find --translations-path assets/i18n/"
   },
