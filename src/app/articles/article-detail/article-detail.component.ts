@@ -16,8 +16,8 @@ import { LoadingService } from '../../loading.service';
 })
 export class ArticleDetailComponent implements OnInit {
 
-  private id: string;
-  private article: Article;
+  private id = '';
+  private article!: Article;
 
   public articleForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -37,14 +37,14 @@ export class ArticleDetailComponent implements OnInit {
     moment.locale('ru');
 
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = params.get('id');
+      this.id = params.get('id') || '';
       this.fetchArticleDetail();
     });
   }
 
   onFormSubmit() {
-    this.article.title = this.articleForm.get('title').value;
-    this.article.url = this.articleForm.get('url').value;
+    this.article.title = this.articleForm.get('title')?.value || '';
+    this.article.url = this.articleForm.get('url')?.value || '';
 
     this.articleService.updateItem(this.article);
   }
@@ -56,21 +56,25 @@ export class ArticleDetailComponent implements OnInit {
   fetchArticleDetail() {
     const subscription = this.articleService
       .fetchItem(this.id)
-      .subscribe((doc: Article) => {
-        subscription.unsubscribe();
+      .subscribe({
+        next: (doc) => {
+          subscription.unsubscribe();
 
-        this.articleForm.get('title').setValue(doc.title);
-        this.articleForm.get('url').setValue(doc.url);
+          const articleDetails = doc as Article;
 
-        const created = (doc.created as firebase.firestore.Timestamp).toDate();
-        this.articleForm.get('created').setValue(moment(created).format('L LTS'));
+          this.articleForm.get('title')?.setValue(articleDetails.title);
+          this.articleForm.get('url')?.setValue(articleDetails.url);
 
-        const changed = (doc.changed as firebase.firestore.Timestamp).toDate();
-        this.articleForm.get('changed').setValue(moment(changed).format('L LTS'));
+          const created = (articleDetails.created as firebase.firestore.Timestamp).toDate();
+          this.articleForm.get('created')?.setValue(moment(created).format('L LTS'));
 
-        this.article = { ...doc };
+          const changed = (articleDetails.changed as firebase.firestore.Timestamp).toDate();
+          this.articleForm.get('changed')?.setValue(moment(changed).format('L LTS'));
 
-        this.loadingService.stop();
-    });
+          this.article = { ...articleDetails };
+
+          this.loadingService.stop();
+        }
+      });
   }
 }

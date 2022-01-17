@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
+
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../auth/auth.service';
 
@@ -8,24 +11,26 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent  {
 
-  public credentials = {
-    email: '',
-    password: ''
-  };
+  public emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  public passwordFormControl = new FormControl('', [Validators.required]);
+
+  public passwordFieldType = 'password';
+  public passwordVisibilityIcon = 'visibility_off';
+
+  private isPasswordVisible = false;
+
 
   constructor(private auth: AuthService,
-              private router: Router) {
-  }
-
-  ngOnInit() {
+              private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   login(): void {
-    this.auth.login(this.credentials.email, this.credentials.password)
+    this.auth.login(this.emailFormControl.value, this.passwordFormControl.value)
       .subscribe({
-        next: (user) => {
+        next: user => {
           const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '';
 
           // Set our navigation extras object
@@ -38,9 +43,24 @@ export class LoginComponent implements OnInit {
           // Redirect the user
           this.router.navigateByUrl(redirect, navigationExtras);
         },
-        error: (error) => {
-          console.error('Login error:', error.message);
+        error: regError => {
+          const sb = this.snackBar.open(regError.message, 'Close', {
+            verticalPosition: 'top',
+            duration: 5000,
+            panelClass: ['login-snackbar-error']
+          });
+
+          sb.onAction().subscribe(() => {
+            sb.dismiss();
+          });
         }
       });
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+
+    this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
+    this.passwordVisibilityIcon = this.isPasswordVisible ? 'visibility_on' : 'visibility_off';
   }
 }

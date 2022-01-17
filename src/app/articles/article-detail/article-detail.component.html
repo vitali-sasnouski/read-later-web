@@ -2,7 +2,7 @@
     <mat-form-field class="article-full-width">
         <mat-label>Заголовок</mat-label>
         <textarea matInput required type="text" formControlName="title"></textarea>
-        <mat-error *ngIf="articleForm.get('title').hasError('required')">
+        <mat-error *ngIf="articleForm.get('title')?.hasError('required')">
             Укажите название заметки
         </mat-error>
     </mat-form-field>
@@ -10,7 +10,7 @@
     <mat-form-field class="article-full-width">
         <mat-label>URL</mat-label>
         <input matInput required type="url" formControlName="url">
-        <mat-error *ngIf="articleForm.get('url').hasError('required')">
+        <mat-error *ngIf="articleForm.get('url')?.hasError('required')">
             Укажите адрес заметки
         </mat-error>
     </mat-form-field>

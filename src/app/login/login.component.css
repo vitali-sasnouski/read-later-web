@@ -5,3 +5,19 @@
 mat-card {      
     min-width: 40%;
 }
+
+.input-full-width {
+    width: 100%;
+    line-height: 1.125
+}
+
+::ng-deep .login-snackbar-error {
+    background-color:brown;
+    color:white;
+  }
+
+::ng-deep .login-snackbar-error button {
+    background-color: #F44336;
+    color: white !important;
+    border: none;
+}

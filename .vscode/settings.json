@@ -8,5 +8,14 @@
         "tslib",
         "types",
         "types jasminewd"
+    ],
+    "cSpell.words": [
+        "apng",
+        "avif",
+        "ngneat",
+        "prefetch",
+        "Transloco",
+        "webp",
+        "unflat"
     ]
 }

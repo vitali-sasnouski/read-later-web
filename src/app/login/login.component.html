@@ -1,21 +1,41 @@
-<div fxLayout="row" fxLayoutAlign="center center" class="login-main">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Login Page</mat-card-title>
-    </mat-card-header>
+<ng-container *transloco="let t; read 'loginPage'">
+  <div fxLayout="row" fxLayoutAlign="center center" class="login-main">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ t('title') }}</mat-card-title>
+      </mat-card-header>
 
-    <mat-card-content fxLayout="column">
-      <mat-form-field>
-        <input type="email" matInput [(ngModel)]="credentials.email" placeholder="Email">
-      </mat-form-field>
+      <mat-card-content>
+        <form>
+          <mat-form-field class="input-full-width">
+            <input type="email" matInput (keydown.enter)="login()" [formControl]="emailFormControl" [placeholder]="t('email')">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+              {{ t('noValidEmail') }}
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+              {{ t('emailRequired') }}              
+            </mat-error>          
+          </mat-form-field>
 
-      <mat-form-field>
-        <input type="password" matInput [(ngModel)]="credentials.password" placeholder="Password">
-      </mat-form-field>
-    </mat-card-content>
+          <mat-form-field class="input-full-width">
+            <input [type]="passwordFieldType" matInput (keydown.enter)="login()" [formControl]="passwordFormControl" [placeholder]="t('password')">
+            <button matSuffix mat-icon-button aria-label="Show password" (click)="togglePasswordVisibility()">
+              <mat-icon>{{ passwordVisibilityIcon }}</mat-icon>
+            </button>
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error *ngIf="passwordFormControl.hasError('required')">
+              {{ t('passwordRequired') }}
+            </mat-error>          
+          </mat-form-field>
+        </form>
+      </mat-card-content>
 
-    <mat-card-actions align="end">
-      <button mat-raised-button (click)="login()" color="primary">Login</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+      <mat-card-actions align="end">
+        <button mat-raised-button [disabled]="emailFormControl.invalid || passwordFormControl.invalid" (click)="login()" color="primary">
+          {{ t('login') }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-container>
